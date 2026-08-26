@@ -56,5 +56,7 @@ console.log(
     `${LANGS.length} языка, расхождений нет`,
 );
 if (overriding.length) {
-  console.log(`i18n: перекрывают текст макета — ${overriding.join(', ')} (см. src/i18n/additions.json)`);
+  console.log(
+    `i18n: перекрывают текст макета — ${overriding.join(', ')} (см. src/i18n/additions.json)`,
+  );
 }
