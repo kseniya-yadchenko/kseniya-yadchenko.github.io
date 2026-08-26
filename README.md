@@ -78,3 +78,4 @@ npm run build && node scripts/check-placeholders.mjs --strict
 ```
 
 Пока эта команда падает, сайт показывать людям рано.
+# yadchenko-website
