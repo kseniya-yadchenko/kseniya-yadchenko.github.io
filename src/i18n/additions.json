@@ -16,5 +16,17 @@
     "en": "I write in Russian and English.",
     "fr": "J'écris en russe et en anglais.",
     "ar": "أكتب بالروسية والإنجليزية."
+  },
+  "p6": {
+    "ru": "Образцы",
+    "en": "Samples",
+    "fr": "Exemples",
+    "ar": "نماذج"
+  },
+  "q6": {
+    "ru": "Образцы перевода (PDF)",
+    "en": "Translation samples (PDF)",
+    "fr": "Exemples de traduction (PDF)",
+    "ar": "نماذج ترجمة (PDF)"
   }
 }

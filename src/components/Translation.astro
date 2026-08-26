@@ -2,6 +2,7 @@
 import { type Lang } from '../i18n/types';
 import { translator } from '../i18n';
 import { TRANSLATION_SAMPLE_URL, isExternal } from '../data/site';
+import { asset } from '../i18n/paths';
 
 interface Props {
   lang: Lang;
@@ -37,8 +38,8 @@ const rows = [
       <div class="specv">
         <a
           class="samplelink"
-          href={TRANSLATION_SAMPLE_URL}
-          target={isExternal(TRANSLATION_SAMPLE_URL) ? '_blank' : undefined}
+          href={asset(TRANSLATION_SAMPLE_URL)}
+          target="_blank"
           rel={isExternal(TRANSLATION_SAMPLE_URL) ? 'noopener' : undefined}
           set:html={t('q6')}
         />

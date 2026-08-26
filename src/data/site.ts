@@ -15,8 +15,8 @@ export const SOCIALS: ReadonlyArray<{ label: string; url: string }> = [
 
 export const SUBSTACK_URL = 'https://kseniyayadchenko.substack.com';
 
-/** TODO: положить PDF в public/ и указать путь. Гейт публикации ловит «#». */
-export const TRANSLATION_SAMPLE_URL = '#';
+/** Лежит в public/, путь резолвится через asset() с учётом base. */
+export const TRANSLATION_SAMPLE_URL = 'Yadchenko-obrazcy-perevoda.pdf';
 
 export const NAV: ReadonlyArray<{ href: string; key: 'n1' | 'n5' | 'n2' | 'n3' | 'n6' | 'n4' }> = [
   { href: '#texts', key: 'n1' },

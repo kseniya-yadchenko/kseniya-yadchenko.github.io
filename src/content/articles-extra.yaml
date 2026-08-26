@@ -1,0 +1,30 @@
+# Публикации, которых нет в макете.
+#
+# articles.yaml генерируется скриптом build-content.mjs и перезаписывается при
+# каждой новой версии макета. Этот файл скрипты не трогают — сюда добавляются
+# статьи, пришедшие напрямую, минуя макет.
+#
+# Списки склеиваются в Texts.astro и дедуплицируются по url: если статья позже
+# появится и в макете, победит запись отсюда.
+#
+# Поля meta/title/dek обязаны быть на всех четырёх языках — схема в
+# src/content.config.ts роняет сборку, если языка не хватает.
+
+- id: "adlam-unicode-digital-life"
+  year: 2026
+  url: "https://sysblok.ru/oriental/kak-novyj-afrikanskij-alfavit-probilsja-v-unicode-cifrovaja-zhizn-adlama/"
+  meta:
+    ru: "Системный Блокъ<br>2026"
+    en: "Sysblok<br>2026 · in Russian"
+    fr: "Sysblok<br>2026 · en russe"
+    ar: "سيستيمني بلوك<br>2026 · بالروسية"
+  title:
+    ru: "Как новый африканский алфавит пробился в Unicode: цифровая жизнь адлама"
+    en: "How a new African alphabet made it into Unicode: the digital life of Adlam"
+    fr: "Comment un nouvel alphabet africain s'est fait une place dans Unicode : la vie numérique de l'adlam"
+    ar: "كيف شقّت أبجدية أفريقية جديدة طريقها إلى يونيكود: الحياة الرقمية لأدلم"
+  dek:
+    ru: "В 1989 году два брата из Гвинеи, которым было всего 14 и 10 лет, решили придумать письменность для родного языка. Их алфавит прошёл путь от рисунков в школьных тетрадях до собственного места в стандарте Unicode."
+    en: "In 1989 two brothers from Guinea, aged just 14 and 10, set out to invent a script for their mother tongue. Their alphabet travelled from drawings in school notebooks to a place of its own in the Unicode standard."
+    fr: "En 1989, deux frères de Guinée, âgés de 14 et 10 ans, décident d'inventer une écriture pour leur langue maternelle. Leur alphabet est passé des dessins dans des cahiers d'école à une place bien à lui dans le standard Unicode."
+    ar: "في عام 1989 قرّر أخوان من غينيا، لم يتجاوزا الرابعة عشرة والعاشرة، أن يبتكرا كتابةً للغتهما الأمّ. وقد قطعت أبجديّتهما الطريق من رسومٍ في كرّاسات مدرسية إلى مكانٍ خاصٍّ بها في معيار يونيكود."

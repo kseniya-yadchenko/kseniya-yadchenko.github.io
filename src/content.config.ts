@@ -15,18 +15,27 @@ const localized = z.object(
   >,
 );
 
+const articleSchema = z.object({
+  year: z.number().int().min(2000).max(2100),
+  url: z.string(),
+  /** Подпись у статьи целиком, как в макете: издание, год и иногда язык
+   *  оригинала, разделённые <br>. Хранится строкой, потому что состав
+   *  зависит от языка: русскому читателю «· на русском» не нужно. */
+  meta: localized,
+  title: localized,
+  dek: localized,
+});
+
+/** Из макета — перезаписывается build-content.mjs. */
 const articles = defineCollection({
   loader: file('src/content/articles.yaml'),
-  schema: z.object({
-    year: z.number().int().min(2000).max(2100),
-    url: z.string(),
-    /** Подпись у статьи целиком, как в макете: издание, год и иногда язык
-     *  оригинала, разделённые <br>. Хранится строкой, потому что состав
-     *  зависит от языка: русскому читателю «· на русском» не нужно. */
-    meta: localized,
-    title: localized,
-    dek: localized,
-  }),
+  schema: articleSchema,
+});
+
+/** Пришедшие напрямую, минуя макет. Скрипты этот файл не трогают. */
+const articlesExtra = defineCollection({
+  loader: file('src/content/articles-extra.yaml'),
+  schema: articleSchema,
 });
 
 const notes = defineCollection({
@@ -40,4 +49,4 @@ const notes = defineCollection({
   }),
 });
 
-export const collections = { articles, notes };
+export const collections = { articles, articlesExtra, notes };

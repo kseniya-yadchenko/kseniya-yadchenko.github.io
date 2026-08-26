@@ -10,7 +10,21 @@ interface Props {
 const { lang } = Astro.props;
 const t = translator(lang);
 
-const articles = (await getCollection('articles')).sort((a, b) => b.data.year - a.data.year);
+/**
+ * Публикации приходят из двух мест: articles.yaml генерируется из макета
+ * и перезаписывается, articles-extra.yaml ведётся руками. Дедупликация по url,
+ * приоритет у ручного файла — он свежее по определению.
+ */
+const fromMacro = await getCollection('articles');
+const extra = await getCollection('articlesExtra');
+
+// Берём только data: у коллекций разные литеральные типы collection, и склеить
+// сами записи без приведения нельзя, а компоненту ничего кроме data не нужно.
+type Article = (typeof fromMacro)[number]['data'];
+const byUrl = new Map<string, Article>();
+for (const entry of [...fromMacro, ...extra]) byUrl.set(entry.data.url, entry.data);
+
+const articles = [...byUrl.values()].sort((a, b) => b.year - a.year);
 ---
 
 <section id="texts">
@@ -25,14 +39,14 @@ const articles = (await getCollection('articles')).sort((a, b) => b.data.year - 
       articles.map((article) => (
         <a
           class="item"
-          href={article.data.url}
-          target={isExternal(article.data.url) ? '_blank' : undefined}
-          rel={isExternal(article.data.url) ? 'noopener' : undefined}
+          href={article.url}
+          target={isExternal(article.url) ? '_blank' : undefined}
+          rel={isExternal(article.url) ? 'noopener' : undefined}
         >
-          <div class="imeta" set:html={article.data.meta[lang]} />
+          <div class="imeta" set:html={article.meta[lang]} />
           <div>
-            <span class="ititle" set:html={article.data.title[lang]} />
-            <span class="idesc" set:html={article.data.dek[lang]} />
+            <span class="ititle" set:html={article.title[lang]} />
+            <span class="idesc" set:html={article.dek[lang]} />
           </div>
         </a>
       ))
