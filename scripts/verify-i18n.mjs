@@ -38,6 +38,13 @@ for (const [key, byLang] of Object.entries(additions)) {
   if (missing.length) problems.push(`additions.${key}: нет перевода — ${missing.join(', ')}`);
 }
 
+// Дополнение может не только добавлять ключ, но и перекрывать текст из макета.
+// Это законно, но означает расхождение с исходником: следующая версия макета
+// придёт со старой формулировкой, и перекрытие продолжит действовать молча.
+// Поэтому такие ключи перечисляются при каждой сборке — чтобы расхождение
+// было видно, а не держалось в голове.
+const overriding = Object.keys(additions).filter((k) => k in dicts.ru);
+
 if (problems.length) {
   console.error('i18n: расхождения между словарями\n');
   for (const p of problems) console.error('  · ' + p);
@@ -48,3 +55,6 @@ console.log(
   `i18n: ${reference.length} ключей из макета + ${Object.keys(additions).length} собственных, ` +
     `${LANGS.length} языка, расхождений нет`,
 );
+if (overriding.length) {
+  console.log(`i18n: перекрывают текст макета — ${overriding.join(', ')} (см. src/i18n/additions.json)`);
+}
