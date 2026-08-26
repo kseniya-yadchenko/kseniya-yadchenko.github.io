@@ -30,10 +30,21 @@ for (const lang of LANGS) {
   if (empty.length) problems.push(`${lang}: пустые значения — ${empty.join(', ')}`);
 }
 
+// additions.json — то, чего нет в макете. Здесь ключ хранит сразу все четыре
+// языка, поэтому проверяем не совпадение наборов, а полноту каждой записи.
+const additions = JSON.parse(readFileSync(resolve(root, 'src/i18n/additions.json'), 'utf8'));
+for (const [key, byLang] of Object.entries(additions)) {
+  const missing = LANGS.filter((l) => !String(byLang[l] ?? '').trim());
+  if (missing.length) problems.push(`additions.${key}: нет перевода — ${missing.join(', ')}`);
+}
+
 if (problems.length) {
   console.error('i18n: расхождения между словарями\n');
   for (const p of problems) console.error('  · ' + p);
   process.exit(1);
 }
 
-console.log(`i18n: ${reference.length} ключей × ${LANGS.length} языка, расхождений нет`);
+console.log(
+  `i18n: ${reference.length} ключей из макета + ${Object.keys(additions).length} собственных, ` +
+    `${LANGS.length} языка, расхождений нет`,
+);

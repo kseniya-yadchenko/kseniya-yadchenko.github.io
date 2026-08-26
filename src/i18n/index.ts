@@ -2,16 +2,36 @@ import ru from './ru.json';
 import en from './en.json';
 import fr from './fr.json';
 import ar from './ar.json';
-import { DEFAULT_LANG, type Lang } from './types';
+import additions from './additions.json';
+import { DEFAULT_LANG, LANGS, type Lang } from './types';
 
 /**
- * Ключи задаёт русский словарь — он извлечён из разметки макета и является
- * эталоном. Типизация ниже намеренно жёсткая: если в en/fr/ar не хватает ключа,
- * `astro check` падает на этапе сборки, а не показывает молча русский текст.
+ * Строки интерфейса собираются из двух источников.
+ *
+ * 1. ru/en/fr/ar.json — извлекаются из макета скриптом extract-i18n.mjs
+ *    и ПЕРЕЗАПИСЫВАЮТСЯ при каждой его перезапуске. Править их руками
+ *    бессмысленно: следующая версия макета сотрёт правки.
+ *
+ * 2. additions.json — то, чего в макете нет, но что нужно на сайте.
+ *    Здесь один ключ — это все четыре языка рядом, так что забыть перевод
+ *    сложнее, чем в четырёх раздельных файлах. Перегенерацию переживает.
+ *
+ * Дополнения перекрывают извлечённое: если ключ появится в новой версии
+ * макета, значение из additions.json продолжит выигрывать — и это заметно
+ * при чтении файла, в отличие от молчаливого расхождения.
  */
-export type I18nKey = keyof typeof ru;
+const EXTRACTED: Record<Lang, Record<string, string>> = { ru, en, fr, ar };
+const ADDITIONS: Record<string, Record<Lang, string>> = additions;
 
-const DICTIONARIES: Record<Lang, Record<I18nKey, string>> = { ru, en, fr, ar };
+export type I18nKey = keyof typeof ru | keyof typeof additions;
+
+const DICTIONARIES = Object.fromEntries(
+  LANGS.map((lang) => {
+    const merged: Record<string, string> = { ...EXTRACTED[lang] };
+    for (const [key, byLang] of Object.entries(ADDITIONS)) merged[key] = byLang[lang];
+    return [lang, merged];
+  }),
+) as Record<Lang, Record<I18nKey, string>>;
 
 /**
  * Значения могут содержать инлайновую разметку (<em>, <b>, <br>) — так было

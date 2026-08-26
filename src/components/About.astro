@@ -8,10 +8,12 @@ interface Props {
 const { lang } = Astro.props;
 const t = translator(lang);
 
+// Порядок как в макете, плюс локация в конце.
 const facts = [
   { term: 'fd1', value: 'fv1' },
   { term: 'fd4', value: 'fv4' },
   { term: 'fd3', value: 'fv3' },
+  { term: 'fd5', value: 'fv5' },
 ] as const;
 ---
 

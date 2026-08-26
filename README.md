@@ -28,7 +28,8 @@ npm run shots               # скриншоты сайта и макета в s
 ## Где что лежит
 
 ```
-src/i18n/{ru,en,fr,ar}.json   строки интерфейса, 62 ключа × 4 языка
+src/i18n/{ru,en,fr,ar}.json   строки из макета — ПЕРЕЗАПИСЫВАЮТСЯ скриптом
+src/i18n/additions.json       строки, которых в макете нет; переживают перегенерацию
 src/content/articles.yaml     публикации, секция 01
 src/content/notes.yaml        малая форма, секция 02
 src/data/site.ts              почта, соцсети, CV, meta-теги
@@ -55,8 +56,9 @@ npm run css:extract     # стили → src/styles/global.css
 npm run build
 ```
 
-Отклонения от макета живут в `src/styles/overrides.css` и переживают
-перегенерацию. Контакты и внешние ссылки — в `src/data/site.ts`, вручную.
+Перегенерацию переживают три файла — их скрипты не трогают:
+`src/styles/overrides.css` (отклонения в оформлении), `src/i18n/additions.json`
+(строки, которых в макете нет) и `src/data/site.ts` (контакты и внешние ссылки).
 
 ## Как добавить публикацию или заметку
 
