@@ -33,11 +33,12 @@ jobs:
       - name: Плейсхолдеры
         run: node scripts/check-placeholders.mjs
 
-      # PREVIEW_URL передаётся явно: скрипты не должны угадывать имя репозитория,
-      # от которого зависит base. Переименование репозитория не должно ронять CI.
+      # Проверки гоняются на сборке с base='/' (значение по умолчанию), поэтому
+      # имя репозитория здесь не участвует: переименование или переезд в другой
+      # аккаунт не должны ронять CI. Настоящий base подставляется только в деплое.
       - name: Переполнение и доступность
         env:
-          PREVIEW_URL: http://localhost:4321/${{ github.event.repository.name }}
+          PREVIEW_URL: http://localhost:4321
         run: |
           npx playwright install --with-deps chromium
           npx astro preview --port 4321 &

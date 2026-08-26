@@ -11,7 +11,7 @@ import { resolve } from 'node:path';
 import { root, referencePath } from './reference.mjs';
 
 const OUT = resolve(root, 'scratch/shots');
-const BASE = process.env.PREVIEW_URL ?? 'http://localhost:4321/yadchenko-website';
+const BASE = process.env.PREVIEW_URL ?? 'http://localhost:4321';
 const WIDTHS = [375, 768, 1440];
 
 mkdirSync(OUT, { recursive: true });

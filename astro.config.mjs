@@ -3,14 +3,15 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 /**
- * ЕДИНСТВЕННОЕ МЕСТО, которое меняется при деплое (задачи T7.2 и T7.3).
+ * Значения по умолчанию — для локальной разработки: сайт отдаётся из корня.
  *
- * Пока домена нет — GitHub Pages отдаёт сайт по адресу <user>.github.io/<repo>/,
- * и BASE обязан совпадать с '/<repo>'. Иначе все CSS и ссылки уедут в 404.
- * После привязки своего домена: SITE = 'https://домен', BASE = '/'.
+ * На деплое их подставляет .github/workflows/deploy.yml, который вычисляет
+ * base сам: корень для своего домена и для репозитория вида <владелец>.github.io,
+ * подкаталог '/<репозиторий>' в остальных случаях. Поэтому здесь имя репозитория
+ * не упоминается — иначе переименование или переезд ломали бы локальную сборку.
  */
-const SITE = process.env.SITE_URL ?? 'https://EXAMPLE.github.io';
-const BASE = process.env.BASE_PATH ?? '/yadchenko-website';
+const SITE = process.env.SITE_URL ?? 'http://localhost:4321';
+const BASE = process.env.BASE_PATH ?? '/';
 
 export default defineConfig({
   site: SITE,

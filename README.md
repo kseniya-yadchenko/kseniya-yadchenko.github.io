@@ -11,7 +11,7 @@
 
 ```bash
 npm install
-npm run dev                 # http://localhost:4321/yadchenko-website/
+npm run dev                 # http://localhost:4321/
 npm run build               # → dist/
 npm run preview
 
