@@ -14,7 +14,8 @@
     "format": "prettier --write .",
     "check:overflow": "node scripts/check-overflow.mjs",
     "check:placeholders": "node scripts/check-placeholders.mjs",
-    "shots": "node scripts/screenshot.mjs"
+    "shots": "node scripts/screenshot.mjs",
+    "check:a11y": "node scripts/check-a11y.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.6.0",
@@ -22,7 +23,9 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
+    "@axe-core/playwright": "^4.13.0",
     "@eslint/js": "^9.39.5",
+    "axe-core": "^4.13.0",
     "eslint": "^9.37.0",
     "eslint-plugin-astro": "^1.3.1",
     "globals": "^17.11.0",
