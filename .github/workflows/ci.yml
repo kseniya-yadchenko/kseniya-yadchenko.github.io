@@ -33,10 +33,14 @@ jobs:
       - name: Плейсхолдеры
         run: node scripts/check-placeholders.mjs
 
+      # PREVIEW_URL передаётся явно: скрипты не должны угадывать имя репозитория,
+      # от которого зависит base. Переименование репозитория не должно ронять CI.
       - name: Переполнение и доступность
+        env:
+          PREVIEW_URL: http://localhost:4321/${{ github.event.repository.name }}
         run: |
           npx playwright install --with-deps chromium
           npx astro preview --port 4321 &
-          npx wait-on http://localhost:4321/${{ github.event.repository.name }}/ -t 30000
+          npx wait-on "$PREVIEW_URL/" -t 60000
           node scripts/check-overflow.mjs
           node scripts/check-a11y.mjs
