@@ -3,6 +3,7 @@ import { type Lang, LANGS, HREFLANG, isRTL, DEFAULT_LANG } from '../i18n/types';
 import { localeUrl } from '../i18n/paths';
 import { META, EMAIL } from '../data/site';
 import '../styles/global.css';
+import '../styles/overrides.css'; // строго после global.css: переопределяет переменные
 
 interface Props {
   lang: Lang;

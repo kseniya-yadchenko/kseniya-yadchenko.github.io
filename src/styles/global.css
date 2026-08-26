@@ -12,7 +12,6 @@
  * нужно сохранять при любых правках.
  */
 @import './fonts.css';
-@import './overrides.css';
 :root{
   --bg:#F8F5EE;          /* айвори */
   --tint:#F2EEE4;
