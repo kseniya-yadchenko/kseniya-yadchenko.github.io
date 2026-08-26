@@ -1,71 +1,92 @@
 /**
- * Разносит данные из плоского словаря i18n по контент-коллекциям.
+ * Разносит списки публикаций и заметок из макета по контент-коллекциям.
  *
- * В макете список публикаций и заметок жил теми же ключами, что и интерфейс:
- * t1..t5, m1..m5, nt1..nt3 и так далее. Это работает, пока записей ровно
- * столько же, сколько нарисовано, — добавление шестой статьи потребовало бы
- * править четыре словаря и разметку.
+ * В макете список статей живёт теми же ключами, что и интерфейс: t1, m1, t1d
+ * и так далее. Это работает, пока записей ровно столько, сколько нарисовано, —
+ * добавление статьи требует правки четырёх словарей и разметки. Здесь они
+ * переезжают в src/content/*.yaml, где одна запись — один объект со всеми
+ * четырьмя языками рядом, а из словарей удаляются, чтобы данные не разъехались.
  *
- * Здесь эти 24 ключа переезжают в src/content/*.yaml, где одна запись — один
- * объект со всеми четырьмя языками рядом. Из словаря они удаляются, чтобы
- * данные не разъехались по двум местам.
- *
- * Отдельно разбирается поле m1..m5: в макете это «Издание<br>Год» одной
- * строкой. Год вынесен в отдельное числовое поле — он одинаков во всех языках
- * и по нему сортируется список.
+ * Скрипт читает именно разметку, а не только словари: ссылки на публикации
+ * есть только в атрибутах href, и брать их надо оттуда. Заодно это значит, что
+ * при следующей версии макета достаточно перезапустить скрипт.
  */
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
-import { resolve, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { resolve } from 'node:path';
+import { root, referenceHtml, referencePath, innerHtml, LANGS } from './reference.mjs';
 
-const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const LANGS = ['ru', 'en', 'fr', 'ar'];
-
+const html = referenceHtml();
 const dicts = Object.fromEntries(
   LANGS.map((l) => [l, JSON.parse(readFileSync(resolve(root, `src/i18n/${l}.json`), 'utf8'))]),
 );
 
-const byLang = (fn) => Object.fromEntries(LANGS.map((l) => [l, fn(dicts[l])]));
+const used = new Set();
+const byLang = (key) => {
+  used.add(key);
+  return Object.fromEntries(LANGS.map((l) => [l, dicts[l][key]]));
+};
 
-const ARTICLE_IDS = [
-  'adlam-unicode',
-  'ajami-script',
-  'language-of-instruction',
-  'low-resource-mt',
-  'fieldwork-grammar',
-];
-const NOTE_IDS = ['ajami-unicode-block', 'unesco-language-report', 'tifinagh-road-signs'];
+/** Все ссылки заданного класса вместе с href и списком data-i внутри. */
+function collectLinks(className) {
+  const out = [];
+  const re = new RegExp(`<a\\b([^>]*\\bclass="${className}"[^>]*)>`, 'g');
+  let m;
+  while ((m = re.exec(html)) !== null) {
+    const attrs = m[1];
+    const { text } = innerHtml(html, 'a', m.index + m[0].length);
+    out.push({
+      href: /href="([^"]*)"/.exec(attrs)?.[1] ?? '#',
+      keys: [...text.matchAll(/data-i="([^"]+)"/g)].map((k) => k[1]),
+    });
+  }
+  return out;
+}
 
-const used = [];
+/** Слаг из английского заголовка: стабильный, читаемый, не зависит от порядка. */
+function slug(title) {
+  return title
+    .toLowerCase()
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/[^a-z0-9\s-]/g, '')
+    .trim()
+    .split(/\s+/)
+    .slice(0, 6)
+    .join('-');
+}
 
-const articles = ARTICLE_IDS.map((id, idx) => {
-  const n = idx + 1;
-  used.push(`m${n}`, `t${n}`, `t${n}d`);
-  // «Системный Блокъ<br>2025» → издание + год
-  const parts = byLang((d) => d[`m${n}`].split(/<br\s*\/?>/i));
+const articles = collectLinks('item').map(({ href, keys }) => {
+  const meta = keys.find((k) => /^m\d+$/.test(k));
+  const title = keys.find((k) => /^t\d+$/.test(k));
+  const dek = keys.find((k) => /^t\d+d$/.test(k));
+  const metaByLang = byLang(meta);
+  // Год нужен отдельным числом: по нему сортируется список, а в самой подписи
+  // рядом с ним может стоять что угодно («Sysblok · 2026 · in Russian»).
+  const year = Number(/\b(19|20)\d{2}\b/.exec(metaByLang.ru)?.[0]);
+  if (!Number.isInteger(year)) throw new Error(`Не удалось определить год из «${metaByLang.ru}»`);
   return {
-    id,
-    year: Number(parts.ru[1].trim()),
-    url: '#', // TODO(T8.1): настоящая ссылка на публикацию
-    outlet: Object.fromEntries(LANGS.map((l) => [l, parts[l][0].trim()])),
-    title: byLang((d) => d[`t${n}`]),
-    dek: byLang((d) => d[`t${n}d`]),
+    id: slug(dicts.en[title]),
+    year,
+    url: href,
+    meta: metaByLang,
+    title: byLang(title),
+    dek: byLang(dek),
   };
 });
 
-const notes = NOTE_IDS.map((id, idx) => {
-  const n = idx + 1;
-  used.push(`d${n}`, `nt${n}`, `nd${n}`);
+const notes = collectLinks('note').map(({ href, keys }) => {
+  const date = keys.find((k) => /^d\d+$/.test(k));
+  const title = keys.find((k) => /^nt\d+$/.test(k));
+  const dek = keys.find((k) => /^nd\d+$/.test(k));
   return {
-    id,
-    url: '#', // TODO(T8.1): настоящая ссылка на запись
-    date: byLang((d) => d[`d${n}`]),
-    title: byLang((d) => d[`nt${n}`]),
-    dek: byLang((d) => d[`nd${n}`]),
+    id: slug(dicts.en[title]),
+    url: href,
+    date: byLang(date),
+    title: byLang(title),
+    dek: byLang(dek),
   };
 });
 
-/** Минимальный YAML-сериализатор: нам нужны только строки, числа и вложенные объекты. */
+/** Минимальный YAML-сериализатор: нужны только строки, числа и вложенные объекты. */
 function toYaml(items) {
   const esc = (v) =>
     typeof v === 'number'
@@ -88,11 +109,13 @@ function toYaml(items) {
 }
 
 mkdirSync(resolve(root, 'src/content'), { recursive: true });
-
 const banner = (what) => `# ${what}
-# Одна запись — один блок. Поля title/dek/outlet обязаны быть на всех четырёх
-# языках: схема в src/content.config.ts роняет сборку, если языка не хватает.
-# url: "#" — плейсхолдер, заменяется в задаче T8.1.
+# Сгенерировано scripts/build-content.mjs из reference/${referencePath().split('/').pop()}.
+# Правки руками возможны, но следующий запуск скрипта их перезапишет — если
+# макет обновился, правьте макет.
+#
+# Поля meta/title/dek обязаны быть на всех четырёх языках: схема
+# в src/content.config.ts роняет сборку, если языка не хватает.
 
 `;
 
@@ -105,7 +128,6 @@ writeFileSync(
   banner('Малая форма, секция 02') + toYaml(notes) + '\n',
 );
 
-// Вычищаем переехавшие ключи из словарей.
 for (const lang of LANGS) {
   const dict = dicts[lang];
   for (const key of used) delete dict[key];
@@ -117,6 +139,6 @@ for (const lang of LANGS) {
   writeFileSync(resolve(root, `src/i18n/${lang}.json`), JSON.stringify(sorted, null, 2) + '\n');
 }
 
-console.log(`articles.yaml — ${articles.length} записей`);
-console.log(`notes.yaml — ${notes.length} записей`);
-console.log(`из словарей удалено ${used.length} ключей, осталось ${Object.keys(dicts.ru).length}`);
+console.log(`articles.yaml — ${articles.length}: ${articles.map((a) => a.id).join(', ')}`);
+console.log(`notes.yaml — ${notes.length}: ${notes.map((n) => n.id).join(', ')}`);
+console.log(`из словарей удалено ${used.size} ключей, осталось ${Object.keys(dicts.ru).length}`);

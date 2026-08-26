@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import { type Lang } from '../i18n/types';
 import { translator } from '../i18n';
+import { isExternal } from '../data/site';
 
 interface Props {
   lang: Lang;
@@ -9,7 +10,6 @@ interface Props {
 const { lang } = Astro.props;
 const t = translator(lang);
 
-// Свежие сверху; при равном годе — порядок из файла.
 const articles = (await getCollection('articles')).sort((a, b) => b.data.year - a.data.year);
 ---
 
@@ -23,12 +23,13 @@ const articles = (await getCollection('articles')).sort((a, b) => b.data.year - 
   <div class="list">
     {
       articles.map((article) => (
-        <a class="item" href={article.data.url}>
-          <div class="imeta">
-            {article.data.outlet[lang]}
-            <br />
-            {article.data.year}
-          </div>
+        <a
+          class="item"
+          href={article.data.url}
+          target={isExternal(article.data.url) ? '_blank' : undefined}
+          rel={isExternal(article.data.url) ? 'noopener' : undefined}
+        >
+          <div class="imeta" set:html={article.data.meta[lang]} />
           <div>
             <span class="ititle" set:html={article.data.title[lang]} />
             <span class="idesc" set:html={article.data.dek[lang]} />

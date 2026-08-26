@@ -58,4 +58,27 @@ const monogram =
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
   }
+
+  // Подсветка текущего раздела в навигации. rootMargin вырезает полосу примерно
+  // на трети экрана: секция считается активной, когда доходит до этой полосы,
+  // а не когда просто появляется снизу.
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('nav a[href^="#"]')];
+  const sections = links
+    .map((a) => document.querySelector(a.getAttribute('href') ?? ''))
+    .filter((el): el is Element => el !== null);
+
+  if (sections.length) {
+    const spy = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          for (const link of links) {
+            link.classList.toggle('here', link.getAttribute('href') === '#' + entry.target.id);
+          }
+        }
+      },
+      { rootMargin: '-30% 0px -60% 0px' },
+    );
+    for (const section of sections) spy.observe(section);
+  }
 </script>

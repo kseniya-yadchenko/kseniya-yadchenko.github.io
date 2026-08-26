@@ -20,7 +20,10 @@ const articles = defineCollection({
   schema: z.object({
     year: z.number().int().min(2000).max(2100),
     url: z.string(),
-    outlet: localized,
+    /** Подпись у статьи целиком, как в макете: издание, год и иногда язык
+     *  оригинала, разделённые <br>. Хранится строкой, потому что состав
+     *  зависит от языка: русскому читателю «· на русском» не нужно. */
+    meta: localized,
     title: localized,
     dek: localized,
   }),

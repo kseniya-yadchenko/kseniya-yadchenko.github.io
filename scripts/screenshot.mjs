@@ -7,10 +7,9 @@
  */
 import { chromium } from 'playwright';
 import { mkdirSync } from 'node:fs';
-import { resolve, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { resolve } from 'node:path';
+import { root, referencePath } from './reference.mjs';
 
-const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = resolve(root, 'scratch/shots');
 const BASE = process.env.PREVIEW_URL ?? 'http://localhost:4321/yadchenko-website';
 const WIDTHS = [375, 768, 1440];
@@ -32,12 +31,7 @@ const page = await browser.newPage({ deviceScaleFactor: 2 });
 
 console.log('макет:');
 for (const w of WIDTHS) {
-  await shoot(
-    page,
-    `file://${resolve(root, 'reference/yadchenko-site-v31.html')}`,
-    'reference-ru',
-    w,
-  );
+  await shoot(page, `file://${referencePath()}`, 'reference', w);
 }
 
 console.log('сайт:');

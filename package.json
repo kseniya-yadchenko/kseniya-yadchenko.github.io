@@ -15,7 +15,10 @@
     "check:overflow": "node scripts/check-overflow.mjs",
     "check:placeholders": "node scripts/check-placeholders.mjs",
     "shots": "node scripts/screenshot.mjs",
-    "check:a11y": "node scripts/check-a11y.mjs"
+    "check:a11y": "node scripts/check-a11y.mjs",
+    "content:build": "node scripts/build-content.mjs",
+    "css:extract": "node scripts/extract-css.mjs",
+    "fonts:fetch": "node scripts/fetch-fonts.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.6.0",

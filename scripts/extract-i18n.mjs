@@ -14,30 +14,11 @@
  * Скрипт одноразовый по смыслу, но остаётся в репозитории как документация
  * происхождения данных: он отвечает на вопрос «откуда взялись эти 86 ключей».
  */
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { writeFileSync, mkdirSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { root, referenceHtml, referencePath, matchBrace, innerHtml } from './reference.mjs';
 
-const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const html = readFileSync(resolve(root, 'reference/yadchenko-site-v31.html'), 'utf8');
-
-/** Находит конец литерала объекта, начиная с индекса открывающей `{`. */
-function matchBrace(src, start) {
-  let depth = 0;
-  let quote = null;
-  for (let i = start; i < src.length; i++) {
-    const ch = src[i];
-    if (quote) {
-      if (ch === '\\') i++;
-      else if (ch === quote) quote = null;
-      continue;
-    }
-    if (ch === '"' || ch === "'" || ch === '`') quote = ch;
-    else if (ch === '{') depth++;
-    else if (ch === '}' && --depth === 0) return i;
-  }
-  throw new Error('Незакрытая скобка объекта T');
-}
+const html = referenceHtml();
 
 /** EN / FR / AR — вычисляем литерал `T` как есть, без парсинга регулярками. */
 function extractDictionaries() {
@@ -62,17 +43,7 @@ function extractRussian() {
       out[key] = '';
       continue;
     }
-    const contentStart = m.index + full.length;
-    const scan = new RegExp(`</?${tag}\\b`, 'g');
-    scan.lastIndex = contentStart;
-    let depth = 1;
-    let hit;
-    while ((hit = scan.exec(html)) !== null) {
-      depth += hit[0][1] === '/' ? -1 : 1;
-      if (depth === 0) break;
-    }
-    if (depth !== 0) throw new Error(`Не найден закрывающий </${tag}> для ключа ${key}`);
-    out[key] = html.slice(contentStart, hit.index).trim();
+    out[key] = innerHtml(html, tag, m.index + full.length).text.trim();
   }
   return out;
 }
@@ -90,3 +61,4 @@ for (const [lang, dict] of Object.entries(dicts)) {
   writeFileSync(resolve(root, `src/i18n/${lang}.json`), JSON.stringify(sorted, null, 2) + '\n');
   console.log(`${lang}.json — ${Object.keys(sorted).length} ключей`);
 }
+console.log(`источник: ${referencePath().split('/').pop()}`);

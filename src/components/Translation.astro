@@ -1,6 +1,7 @@
 ---
 import { type Lang } from '../i18n/types';
 import { translator } from '../i18n';
+import { TRANSLATION_SAMPLE_URL, isExternal } from '../data/site';
 
 interface Props {
   lang: Lang;
@@ -8,12 +9,12 @@ interface Props {
 const { lang } = Astro.props;
 const t = translator(lang);
 
+// Порядок как в макете: образец перевода стоит перед сроками.
 const rows = [
   { key: 'p1', value: 'q1' },
   { key: 'p2', value: 'q2' },
   { key: 'p3', value: 'q3' },
   { key: 'p4', value: 'q4' },
-  { key: 'p5', value: 'q5' },
 ] as const;
 ---
 
@@ -31,5 +32,21 @@ const rows = [
         </div>
       ))
     }
+    <div class="specrow">
+      <div class="speck" set:html={t('p6')} />
+      <div class="specv">
+        <a
+          class="samplelink"
+          href={TRANSLATION_SAMPLE_URL}
+          target={isExternal(TRANSLATION_SAMPLE_URL) ? '_blank' : undefined}
+          rel={isExternal(TRANSLATION_SAMPLE_URL) ? 'noopener' : undefined}
+          set:html={t('q6')}
+        />
+      </div>
+    </div>
+    <div class="specrow">
+      <div class="speck" set:html={t('p5')} />
+      <div class="specv" set:html={t('q5')} />
+    </div>
   </div>
 </section>

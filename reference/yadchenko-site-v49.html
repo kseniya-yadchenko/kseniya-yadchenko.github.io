@@ -27,29 +27,35 @@
 }
 html[lang="ar"]{--body:'IBM Plex Sans Arabic',sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}
-html{-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+section{scroll-margin-top:5.5rem}
+@media(max-width:720px){section{scroll-margin-top:9rem}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.68;
   font-weight:300;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 .wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:var(--gut)}
 a{color:inherit}
 :focus-visible{outline:1px solid var(--ink);outline-offset:4px}
-.mono{font-family:var(--mono);font-weight:400;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent)}
+.mono{font-family:var(--mono);font-weight:400;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);padding-top:.55em}
 @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @keyframes drift{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* ── шапка ─────────────────────────────────────── */
 header{position:sticky;top:0;z-index:30;background:var(--bg);border-bottom:1px solid var(--rule)}
-.bar{display:flex;align-items:center;gap:2rem;padding-block:1.35rem;flex-wrap:wrap}
+.bar{display:grid;grid-template-columns:auto 1fr auto;grid-template-areas:"sig nav langs";
+  gap:1rem 2rem;align-items:center;padding-block:1.35rem;direction:ltr}
+.sig{grid-area:sig}
+.langs{grid-area:langs}
 .sig{font-family:var(--display);font-weight:400;font-size:clamp(1.15rem,1.9vw,1.42rem);letter-spacing:-.01em;
   text-decoration:none;white-space:nowrap;line-height:1}
 .sigmark{display:none;font-style:italic;font-size:1.75rem;line-height:.9;color:var(--accent)}
 header.scrolled .signame{display:none}
 header.scrolled .sigmark{display:inline-block}
-nav{display:flex;gap:2.1rem;margin-inline-start:auto;flex-wrap:wrap}
-nav a{font-family:var(--mono);font-weight:400;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;
+nav{grid-area:nav;display:flex;gap:1.45rem;flex-wrap:wrap;justify-content:flex-end}
+nav a{font-family:var(--mono);font-weight:400;font-size:.66rem;letter-spacing:.09em;white-space:nowrap;text-transform:uppercase;text-decoration:none;
   color:var(--grey);transition:color .15s}
-nav a:hover{color:var(--accent)}
-.langs{display:flex;align-items:center;gap:.15rem;font-family:var(--mono);font-weight:400;font-size:.72rem;letter-spacing:.1em}
+nav a:hover,nav a.here{color:var(--accent)}
+.langs{display:flex;align-items:center;gap:.15rem;font-family:var(--mono);font-weight:400;font-size:.72rem;letter-spacing:.1em;direction:ltr}
 .langs button{background:none;border:0;cursor:pointer;color:var(--grey-2);padding:.32rem .5rem;font:inherit;letter-spacing:.06em;transition:color .15s}
 .langs button:hover{color:var(--ink)}
 .langs button[aria-pressed="true"]{color:var(--bg);background:var(--ink)}
@@ -83,9 +89,9 @@ h1 em{font-style:italic;font-weight:500;color:var(--accent)}
 
 /* ── секции ────────────────────────────────────── */
 section{border-top:1px solid var(--rule);padding-block:clamp(3.5rem,7vw,6rem)}
-.shead{display:grid;grid-template-columns:auto 1fr;gap:1.1rem;align-items:baseline;margin-bottom:clamp(2rem,4vw,3rem)}
-.shead h2{font-family:var(--display);font-weight:400;font-size:clamp(1.15rem,1.9vw,1.4rem);letter-spacing:-.015em}
-.h2s{font-family:var(--display);font-weight:400;font-size:clamp(1.15rem,1.9vw,1.4rem);letter-spacing:-.015em}
+.shead{display:grid;grid-template-columns:auto 1fr;gap:1.1rem;align-items:start;margin-bottom:clamp(2rem,4vw,3rem)}
+.shead h2,.h2s{font-family:var(--display);font-weight:500;
+  font-size:clamp(1.65rem,3.1vw,2.25rem);line-height:1.08;letter-spacing:-.022em}
 .shrow{display:flex;align-items:baseline;gap:1rem;flex-wrap:wrap}
 
 /* ── тексты ────────────────────────────────────── */
@@ -114,7 +120,7 @@ section{border-top:1px solid var(--rule);padding-block:clamp(3.5rem,7vw,6rem)}
   letter-spacing:.15em;text-transform:uppercase;color:var(--grey);text-decoration:none;
   padding-bottom:.35rem;border-bottom:1px solid var(--rule);transition:.16s}
 .substack:hover{color:var(--accent);border-color:var(--accent)}
-.about{display:grid;grid-template-columns:auto 1fr;gap:1.1rem}
+.about{display:grid;grid-template-columns:auto 1fr;gap:1.1rem;align-items:start}
 .abody{display:grid;grid-template-columns:1.25fr .75fr;gap:clamp(2rem,5vw,4rem);align-items:start}
 .abody p{max-width:48ch;margin-bottom:1rem;color:var(--grey)}
 .abody p:first-child{color:var(--ink);font-size:1.12rem;line-height:1.55;max-width:44ch}
@@ -140,6 +146,8 @@ section{border-top:1px solid var(--rule);padding-block:clamp(3.5rem,7vw,6rem)}
 .speck{font-family:var(--mono);font-weight:300;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--grey-2);line-height:1.7}
 .specv{font-family:var(--display);font-weight:400;font-size:1.06rem;line-height:1.5;max-width:70ch}
 .specv em{font-style:normal;color:var(--ink);font-weight:400}
+.samplelink{text-decoration:none;border-bottom:1px solid var(--rule);transition:.16s}
+.samplelink:hover{color:var(--accent);border-color:var(--accent)}
 .formats{max-width:70ch}
 .fmt{border-bottom:1px solid var(--rule)}
 .fmt:last-child{border-bottom:0}
@@ -155,10 +163,8 @@ section{border-top:1px solid var(--rule);padding-block:clamp(3.5rem,7vw,6rem)}
 .fmt.open p{max-height:180px;opacity:1;padding-bottom:1rem}
 
 /* ── контакты ──────────────────────────────────── */
-.bigname{font-family:var(--display);font-weight:400;font-size:clamp(2rem,6.5vw,4.6rem);line-height:1;
-  letter-spacing:-.032em;margin-block:clamp(1rem,2.5vw,2rem) clamp(1.4rem,2.5vw,2rem)}
 .lacerule{height:15px;background:var(--lace-rule);background-size:28px 15px;background-repeat:repeat-x;
-  margin-bottom:clamp(2rem,3.5vw,2.8rem)}
+  margin-block:clamp(.5rem,1.5vw,1rem) clamp(2rem,3.5vw,2.8rem)}
 .contact{display:flex;gap:2rem;flex-wrap:wrap}
 .contact a{font-family:var(--mono);font-weight:400;font-size:.8rem;letter-spacing:.15em;text-transform:uppercase;
   text-decoration:none;color:var(--grey);padding-bottom:.3rem;border-bottom:1px solid var(--rule);transition:.16s}
@@ -177,7 +183,8 @@ footer{border-top:1px solid var(--rule);padding-block:1.6rem 3.5rem;font-family:
   .herogrid{grid-template-columns:1fr;gap:2.5rem}
   .shotframe{order:-1;align-self:start;padding:13px}
   .heroshot{width:150px;height:auto;aspect-ratio:1/1.25;min-height:0}
-  nav{order:3;width:100%;margin-inline-start:0;gap:1.2rem}
+  .bar{grid-template-columns:auto auto;grid-template-areas:"sig langs" "nav nav";justify-content:space-between}
+  nav{gap:1.05rem;justify-content:flex-start}
   .contact{gap:1.2rem}
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
@@ -231,39 +238,11 @@ body.switching .wrap{opacity:.2}
       </div>
     </div>
     <div class="list">
-      <a class="item" href="#">
-        <div class="imeta" data-i="m1">Системный Блокъ<br>2025</div>
+      <a class="item" href="https://sysblok.ru/oriental/pochemu-sovremennye-tehnologii-ne-ponimajut-afrikanskie-manuskripty/" target="_blank" rel="noopener">
+        <div class="imeta" data-i="m1">Системный Блокъ<br>2026</div>
         <div>
-          <span class="ititle" data-i="t1">Алфавит, придуманный двумя школьниками, дошёл до Unicode</span>
-          <span class="idesc" data-i="t1d">Как адлам за тридцать лет прошёл путь от школьной тетради в Гвинее до системного шрифта.</span>
-        </div>
-      </a>
-      <a class="item" href="#">
-        <div class="imeta" data-i="m2">Системный Блокъ<br>2025</div>
-        <div>
-          <span class="ititle" data-i="t2">Арабское письмо, которое записывает африканские языки</span>
-          <span class="idesc" data-i="t2d">Рукописная традиция аджами: века текстов на хауса и фула, которых почти нет в цифровых архивах.</span>
-        </div>
-      </a>
-      <a class="item" href="#">
-        <div class="imeta" data-i="m3">Издание<br>2025</div>
-        <div>
-          <span class="ititle" data-i="t3">На каком языке учить: спор об образовании в Африке южнее Сахары</span>
-          <span class="idesc" data-i="t3d">Почему решение о языке начальной школы оказывается политическим, а не педагогическим.</span>
-        </div>
-      </a>
-      <a class="item" href="#">
-        <div class="imeta" data-i="m4">Издание<br>2024</div>
-        <div>
-          <span class="ititle" data-i="t4">Языки без данных: машинный перевод, когда корпуса пусты</span>
-          <span class="idesc" data-i="t4d">Модели уверенно ошибаются на языках с сотнями миллионов носителей — и вот почему.</span>
-        </div>
-      </a>
-      <a class="item" href="#">
-        <div class="imeta" data-i="m5">Издание<br>2024</div>
-        <div>
-          <span class="ititle" data-i="t5">Полевая работа: как описывают язык, у которого нет грамматики</span>
-          <span class="idesc" data-i="t5d">Что происходит между диктофоном лингвиста и опубликованным описанием языка.</span>
+          <span class="ititle" data-i="t1">Почему современные технологии не понимают африканские манускрипты?</span>
+          <span class="idesc" data-i="t1d">За африканскими языками стоит своя лингвистическая система, а у письменных — ещё и сложная графика. Почему ИИ распознаёт текст, но не справляется с полноценным анализом манускриптов.</span>
         </div>
       </a>
     </div>
@@ -291,7 +270,7 @@ body.switching .wrap{opacity:.2}
         <span class="ndesc" data-i="nd3">Собираю фотографии и пытаюсь понять, по какой логике его где-то ставят, а где-то нет.</span>
       </a>
     </div>
-    <a class="substack" href="#" data-i="substack">Все записи на Substack →</a>
+    <a class="substack" href="https://kseniyayadchenko.substack.com" target="_blank" rel="noopener" data-i="substack">Все записи на Substack →</a>
   </section>
 
   <section id="about">
@@ -351,6 +330,7 @@ body.switching .wrap{opacity:.2}
       <div class="specrow"><div class="speck" data-i="p2">Что перевожу</div><div class="specv" data-i="q2">Научные статьи и главы · тезисы и аннотации · заявки на гранты · отчёты исследовательских проектов</div></div>
       <div class="specrow"><div class="speck" data-i="p3">Тематика</div><div class="specv" data-i="q3">Гуманитарные и социальные науки: лингвистика, антропология, социология, африканистика, история, языковая политика.</div></div>
       <div class="specrow"><div class="speck" data-i="p4">Как работаю</div><div class="specv" data-i="q4">Сверяю терминологию по источникам, спорные места помечаю и обсуждаю с автором.</div></div>
+      <div class="specrow"><div class="speck" data-i="p6">Образец</div><div class="specv"><a class="samplelink" href="#" data-i="q6">Фрагмент перевода (PDF)</a></div></div>
       <div class="specrow"><div class="speck" data-i="p5">Сроки</div><div class="specv" data-i="q5">Статья на 40 тысяч знаков — около недели.</div></div>
     </div>
   </section>
@@ -360,14 +340,12 @@ body.switching .wrap{opacity:.2}
       <div class="mono">06</div>
       <div class="shrow"><h2 data-i="h2contact">Контакты</h2></div>
     </div>
-    <p class="bigname" data-i="sig3">Ксения Ядченко</p>
     <div class="lacerule"></div>
     <div class="contact">
-      <a href="mailto:hello@example.com">hello@example.com</a>
-      <a href="#">Telegram</a>
-      <a href="#">LinkedIn</a>
-      <a href="#">Substack</a>
-      <a href="#" data-i="cv">CV (PDF)</a>
+      <a href="mailto:kseniyadchenko@icloud.com">kseniyadchenko@icloud.com</a>
+      <a href="https://t.me/kseniyadchenko" target="_blank" rel="noopener">Telegram</a>
+      <a href="https://www.linkedin.com/in/kseniya-yadchenko" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://kseniyayadchenko.substack.com" target="_blank" rel="noopener">Substack</a>
     </div>
   </section>
 
@@ -379,16 +357,12 @@ body.switching .wrap{opacity:.2}
 
 <script>
 const T={ru:{},
- en:{m1:"Sysblok<br>2025",m2:"Sysblok<br>2025",m3:"Publication<br>2025",m4:"Publication<br>2024",m5:"Publication<br>2024",d1:"August 2026",d2:"July 2026",d3:"July 2026",n6:"Translation",h2trans:"Translation",p1:"Language pairs",q1:"From English, French and Arabic into Russian. From Russian into English.",p2:"What I translate",q2:"Research articles and book chapters · abstracts and conference papers · grant applications · project reports",p3:"Fields",q3:"The humanities and social sciences: linguistics, anthropology, sociology, African studies, history, language policy.",p4:"How I work",q4:"I check terminology against the sources and flag anything contested for discussion with the author.",p5:"Turnaround",q5:"A 40,000-character article takes about a week.",n5:"Short form",h2notes:"Short form",nt1:"Why Ajami still has no Unicode block of its own",nd1:"Working out how the proposal process runs and who usually files one.",nt2:"The UNESCO report on language of instruction in West Africa",nd2:"Noting what has changed in the recommendations over the past ten years.",nt3:"Tifinagh on Moroccan road signs",nd3:"Collecting photographs and trying to work out why it appears in some places and not others.",substack:"All entries on Substack →",fv1:"BSU, Faculty of International Relations — African studies",f5d:"A first-person piece for when a subject has a clear position worth naming.",f5:"Column",f4d:"The whole picture: who is working on what, where the argument is, and what is still unresolved.",f4:"Topic overview",f3d:"A conversation with a researcher or a speaker of the language — in Russian, English or French.",f3:"Interview",f2d:"I read the paper in full, check the conclusions and explain what it actually shows.",f2:"Research breakdown",f1d:"A difficult subject laid out so a reader without special training can follow it.",f1:"Explainer",fv4:"Language policy, writing systems and manuscripts, NLP for low-resource languages, field linguistics",sig:"Kseniya Yadchenko",sig2:"Kseniya Yadchenko",n1:"Writing",n2:"About",n3:"For editors",n4:"Contact",
+ en:{nt3:"Tifinagh on Moroccan road signs",p6:"Sample",q6:"Translation sample (PDF)",nt2:"The UNESCO report on language of instruction in West Africa",m1:"Sysblok<br>2026 · in Russian",d1:"August 2026",d2:"July 2026",d3:"July 2026",n6:"Translation",h2trans:"Translation",p1:"Language pairs",q1:"From English, French and Arabic into Russian. From Russian into English.",p2:"What I translate",q2:"Research articles and book chapters · abstracts and conference papers · grant applications · project reports",p3:"Fields",q3:"The humanities and social sciences: linguistics, anthropology, sociology, African studies, history, language policy.",p4:"How I work",q4:"I check terminology against the sources and flag anything contested for discussion with the author.",p5:"Turnaround",q5:"A 40,000-character article takes about a week.",n5:"Short form",h2notes:"Short form",nt1:"Why Ajami still has no Unicode block of its own",nd1:"Working out how the proposal process runs and who usually files one.",nd2:"Noting what has changed in the recommendations over the past ten years.",nd3:"Collecting photographs and trying to work out why it appears in some places and not others.",substack:"All entries on Substack →",fv1:"BSU, Faculty of International Relations — African studies",f5d:"A first-person piece for when a subject has a clear position worth naming.",f5:"Column",f4d:"The whole picture: who is working on what, where the argument is, and what is still unresolved.",f4:"Topic overview",f3d:"A conversation with a researcher or a speaker of the language — in Russian, English or French.",f3:"Interview",f2d:"I read the paper in full, check the conclusions and explain what it actually shows.",f2:"Research breakdown",f1d:"A difficult subject laid out so a reader without special training can follow it.",f1:"Explainer",fv4:"Language policy, writing systems and manuscripts, NLP for low-resource languages, field linguistics",sig:"Kseniya Yadchenko",sig2:"Kseniya Yadchenko",n1:"Writing",n2:"About",n3:"For editors",n4:"Contact",
   h1:"I write about Africa through <em>its languages</em>",
   lede:"I read sources in English, French and Arabic, and write about what is happening to the languages of the continent — <b>from manuscripts to machine translation</b>.",
   cta1:"Read the writing",cta2:"Get in touch",
-  manifesto:"Two thousand languages. Almost everything written about them is written by people <em>who can't read the sources</em>.",sig3:"Kseniya Yadchenko",k0:"Working languages",v0:"I write in Russian and English. I read sources in English, French and Arabic.",h2texts:"Writing",
-  t1:"An alphabet invented by two schoolboys made it into Unicode",t1d:"How Adlam went from a school notebook in Guinea to a system font in thirty years.",
-  t2:"The Arabic script that writes African languages",t2d:"The Ajami tradition: centuries of Hausa and Fula texts that digital archives barely hold.",
-  t3:"Which language to teach in: the argument over schooling in sub-Saharan Africa",t3d:"Why the choice of language for primary school turns out to be political rather than pedagogical.",
-  t4:"Languages without data: machine translation when the corpus is empty",t4d:"Models fail confidently on languages with hundreds of millions of speakers — here's why.",
-  t5:"Fieldwork: describing a language that has no grammar yet",t5d:"What happens between a linguist's recorder and a published description of a language.",
+  manifesto:"Two thousand languages. Almost everything written about them is written by people <em>who can't read the sources</em>.",k0:"Working languages",v0:"I write in Russian and English. I read sources in English, French and Arabic.",h2texts:"Writing",
+  t1:"Why current technology can't read African manuscripts?",t1d:"African languages have a linguistic system of their own, and the written ones a complex graphic system on top of it. Why AI recognises the text but cannot fully analyse the manuscripts.",
   
   h2about:"About",
   ab1:"I'm interested in what happens to a language when everyone speaks about it except the people who speak it.",
@@ -403,17 +377,13 @@ const T={ru:{},
   k3:"Subjects",v3:"Sub-Saharan Africa and the Maghreb · language policy and education · writing systems and manuscript traditions · computational linguistics and low-resource languages",
   k5:"How I work",v5:"I read the research in the original and go to the authors for comment.",
   k6:"Turnaround",v6:"A standard piece takes <em>7–10 days</em>.",
-  h2contact:"Contact",cv:"CV (PDF)"},
- fr:{m1:"Sysblok<br>2025",m2:"Sysblok<br>2025",m3:"Publication<br>2025",m4:"Publication<br>2024",m5:"Publication<br>2024",d1:"Août 2026",d2:"Juillet 2026",d3:"Juillet 2026",n6:"Traduction",h2trans:"Traduction",p1:"Combinaisons",q1:"De l'anglais, du français et de l'arabe vers le russe. Du russe vers l'anglais.",p2:"Ce que je traduis",q2:"Articles et chapitres scientifiques · résumés et communications · demandes de subvention · rapports de projet",p3:"Domaines",q3:"Sciences humaines et sociales : linguistique, anthropologie, sociologie, études africaines, histoire, politique linguistique.",p4:"Méthode",q4:"Je vérifie la terminologie dans les sources et je signale les passages discutables à l'auteur.",p5:"Délais",q5:"Un article de 40 000 signes demande environ une semaine.",n5:"Forme brève",h2notes:"Forme brève",nt1:"Pourquoi l'ajami n'a toujours pas son bloc Unicode",nd1:"J'examine comment fonctionne la procédure de proposition et qui la dépose d'habitude.",nt2:"Le rapport de l'UNESCO sur la langue d'enseignement en Afrique de l'Ouest",nd2:"Je relève ce qui a changé dans les recommandations depuis dix ans.",nt3:"Le tifinagh sur les panneaux routiers marocains",nd3:"Je rassemble des photographies et tente de comprendre pourquoi il apparaît ici et pas là.",substack:"Toutes les entrées sur Substack →",fv1:"BGU, Faculté des relations internationales — études africaines",f5d:"Un texte à la première personne, quand un sujet appelle une position claire.",f5:"Chronique",f4d:"La vue d'ensemble : qui travaille sur quoi, où se situe le débat et ce qui reste sans réponse.",f4:"Panorama",f3d:"Une conversation avec un chercheur ou un locuteur — en russe, en anglais ou en français.",f3:"Entretien",f2d:"Je lis l'article en entier, je vérifie les conclusions et j'explique ce qu'il montre vraiment.",f2:"Décryptage d'étude",f1d:"Un sujet difficile présenté de sorte qu'un lecteur non spécialiste puisse suivre.",f1:"Texte explicatif",fv4:"Politique linguistique, écritures et manuscrits, TAL pour langues peu dotées, linguistique de terrain",sig:"Ksenia Yadchenko",sig2:"Ksenia Yadchenko",n1:"Textes",n2:"À propos",n3:"Pour les rédactions",n4:"Contact",
+  h2contact:"Contact"},
+ fr:{nt3:"Le tifinagh sur les panneaux routiers marocains",p6:"Échantillon",q6:"Extrait de traduction (PDF)",nt2:"Le rapport de l'UNESCO sur la langue d'enseignement en Afrique de l'Ouest",m1:"Sysblok<br>2026 · en russe",d1:"Août 2026",d2:"Juillet 2026",d3:"Juillet 2026",n6:"Traduction",h2trans:"Traduction",p1:"Combinaisons",q1:"De l'anglais, du français et de l'arabe vers le russe. Du russe vers l'anglais.",p2:"Ce que je traduis",q2:"Articles et chapitres scientifiques · résumés et communications · demandes de subvention · rapports de projet",p3:"Domaines",q3:"Sciences humaines et sociales : linguistique, anthropologie, sociologie, études africaines, histoire, politique linguistique.",p4:"Méthode",q4:"Je vérifie la terminologie dans les sources et je signale les passages discutables à l'auteur.",p5:"Délais",q5:"Un article de 40 000 signes demande environ une semaine.",n5:"Forme brève",h2notes:"Forme brève",nt1:"Pourquoi l'ajami n'a toujours pas son bloc Unicode",nd1:"J'examine comment fonctionne la procédure de proposition et qui la dépose d'habitude.",nd2:"Je relève ce qui a changé dans les recommandations depuis dix ans.",nd3:"Je rassemble des photographies et tente de comprendre pourquoi il apparaît ici et pas là.",substack:"Toutes les entrées sur Substack →",fv1:"BGU, Faculté des relations internationales — études africaines",f5d:"Un texte à la première personne, quand un sujet appelle une position claire.",f5:"Chronique",f4d:"La vue d'ensemble : qui travaille sur quoi, où se situe le débat et ce qui reste sans réponse.",f4:"Panorama",f3d:"Une conversation avec un chercheur ou un locuteur — en russe, en anglais ou en français.",f3:"Entretien",f2d:"Je lis l'article en entier, je vérifie les conclusions et j'explique ce qu'il montre vraiment.",f2:"Décryptage d'étude",f1d:"Un sujet difficile présenté de sorte qu'un lecteur non spécialiste puisse suivre.",f1:"Texte explicatif",fv4:"Politique linguistique, écritures et manuscrits, TAL pour langues peu dotées, linguistique de terrain",sig:"Ksenia Yadchenko",sig2:"Ksenia Yadchenko",n1:"Textes",n2:"À propos",n3:"Pour les rédactions",n4:"Contact",
   h1:"J'écris sur l'Afrique à travers <em>ses langues</em>",
   lede:"Je lis les sources en anglais, en français et en arabe, et j'écris sur ce qui arrive aux langues du continent — <b>du manuscrit à la traduction automatique</b>.",
   cta1:"Lire les textes",cta2:"M'écrire",
-  manifesto:"Deux mille langues. Presque tout ce qu'on écrit à leur sujet est écrit par des gens <em>qui ne lisent pas les sources</em>.",sig3:"Ksenia Yadchenko",k0:"Langues de travail",v0:"J'écris en russe et en anglais. Je lis les sources en anglais, en français et en arabe.",h2texts:"Textes",
-  t1:"Un alphabet inventé par deux lycéens est entré dans Unicode",t1d:"Comment l'adlam est passé d'un cahier d'écolier en Guinée à une police système en trente ans.",
-  t2:"L'écriture arabe qui note les langues africaines",t2d:"La tradition ajami : des siècles de textes en haoussa et en peul quasi absents des archives numériques.",
-  t3:"Dans quelle langue enseigner : la querelle scolaire en Afrique subsaharienne",t3d:"Pourquoi le choix de la langue de l'école primaire s'avère politique et non pédagogique.",
-  t4:"Langues sans données : traduire quand le corpus est vide",t4d:"Les modèles se trompent avec assurance sur des langues à des centaines de millions de locuteurs — voici pourquoi.",
-  t5:"Le terrain : décrire une langue qui n'a pas encore de grammaire",t5d:"Ce qui se passe entre l'enregistreur du linguiste et la description publiée d'une langue.",
+  manifesto:"Deux mille langues. Presque tout ce qu'on écrit à leur sujet est écrit par des gens <em>qui ne lisent pas les sources</em>.",k0:"Langues de travail",v0:"J'écris en russe et en anglais. Je lis les sources en anglais, en français et en arabe.",h2texts:"Textes",
+  t1:"Pourquoi les technologies actuelles ne lisent pas les manuscrits africains ?",t1d:"Les langues africaines ont leur propre système linguistique, et celles qui s'écrivent y ajoutent une graphie complexe. Pourquoi l'IA reconnaît le texte sans parvenir à analyser vraiment les manuscrits.",
   
   h2about:"À propos",
   ab1:"Ce qui m'intéresse : ce que devient une langue quand tout le monde en parle sauf ceux qui la parlent.",
@@ -428,17 +398,13 @@ const T={ru:{},
   k3:"Sujets",v3:"Afrique subsaharienne et Maghreb · politique linguistique et éducation · écritures et tradition manuscrite · linguistique informatique et langues peu dotées",
   k5:"Méthode",v5:"Je lis la recherche dans l'original et je contacte les auteurs pour un commentaire.",
   k6:"Délais",v6:"Un texte courant demande <em>7 à 10 jours</em>.",
-  h2contact:"Contact",cv:"CV (PDF)"},
- ar:{m1:"سيستيمني بلوك<br>2025",m2:"سيستيمني بلوك<br>2025",m3:"منشور<br>2025",m4:"منشور<br>2024",m5:"منشور<br>2024",d1:"أغسطس 2026",d2:"يوليو 2026",d3:"يوليو 2026",n6:"الترجمة",h2trans:"الترجمة",p1:"أزواج اللغات",q1:"من الإنجليزية والفرنسية والعربية إلى الروسية. ومن الروسية إلى الإنجليزية.",p2:"ما أترجمه",q2:"المقالات والفصول البحثية · الملخّصات وأوراق المؤتمرات · طلبات المنح · تقارير المشاريع",p3:"المجالات",q3:"العلوم الإنسانية والاجتماعية: اللسانيات، والأنثروبولوجيا، وعلم الاجتماع، والدراسات الأفريقية، والتاريخ، والسياسة اللغوية.",p4:"طريقة العمل",q4:"أراجع المصطلحات في مصادرها، وأشير إلى المواضع الخلافية لمناقشتها مع المؤلّف.",p5:"المدّة",q5:"مقال بأربعين ألف حرف يستغرق نحو أسبوع.",n5:"النصّ القصير",h2notes:"النصّ القصير",nt1:"لماذا لا تزال كتابة العجمي بلا كتلة خاصّة في يونيكود",nd1:"أتتبّع كيف تسير إجراءات التقدّم بالمقترح ومن يتقدّم به عادةً.",nt2:"تقرير اليونسكو عن لغة التعليم في غرب أفريقيا",nd2:"أدوّن ما تغيّر في التوصيات خلال العشر سنوات الأخيرة.",nt3:"تيفيناغ على لافتات الطرق في المغرب",nd3:"أجمع الصور وأحاول فهم سبب ظهوره في مواضع دون أخرى.",substack:"كلّ التدوينات على Substack ←",fv1:"جامعة بيلاروس الحكومية، كلّية العلاقات الدولية — الدراسات الأفريقية",f5d:"نصّ بضمير المتكلّم حين يستدعي الموضوع موقفاً واضحاً.",f5:"عمود",f4d:"الصورة كاملة: من يعمل على ماذا، وأين يدور الخلاف، وما الذي بقي دون حسم.",f4:"عرض موضوع",f3d:"حديث مع باحث أو متحدّث باللغة — بالروسية أو الإنجليزية أو الفرنسية.",f3:"حوار",f2d:"أقرأ البحث كاملاً، وأتحقّق من النتائج، وأشرح ما يُظهره فعلاً.",f2:"قراءة في دراسة",f1d:"موضوع صعب يُعرَض بحيث يتابعه قارئ من غير أهل الاختصاص.",f1:"نصّ تفسيري",fv4:"السياسة اللغوية، أنظمة الكتابة والمخطوطات، معالجة اللغات محدودة الموارد، اللسانيات الميدانية",sig:"كسينيا يادتشينكو",sig2:"كسينيا يادتشينكو",n1:"النصوص",n2:"نبذة",n3:"للمحرّرين",n4:"للتواصل",
+  h2contact:"Contact"},
+ ar:{nt3:"تيفيناغ على لافتات الطرق في المغرب",p6:"نموذج",q6:"نموذج ترجمة (PDF)",nt2:"تقرير اليونسكو عن لغة التعليم في غرب أفريقيا",m1:"سيستيمني بلوك<br>2026 · بالروسية",d1:"أغسطس 2026",d2:"يوليو 2026",d3:"يوليو 2026",n6:"الترجمة",h2trans:"الترجمة",p1:"أزواج اللغات",q1:"من الإنجليزية والفرنسية والعربية إلى الروسية. ومن الروسية إلى الإنجليزية.",p2:"ما أترجمه",q2:"المقالات والفصول البحثية · الملخّصات وأوراق المؤتمرات · طلبات المنح · تقارير المشاريع",p3:"المجالات",q3:"العلوم الإنسانية والاجتماعية: اللسانيات، والأنثروبولوجيا، وعلم الاجتماع، والدراسات الأفريقية، والتاريخ، والسياسة اللغوية.",p4:"طريقة العمل",q4:"أراجع المصطلحات في مصادرها، وأشير إلى المواضع الخلافية لمناقشتها مع المؤلّف.",p5:"المدّة",q5:"مقال بأربعين ألف حرف يستغرق نحو أسبوع.",n5:"النصّ القصير",h2notes:"النصّ القصير",nt1:"لماذا لا تزال كتابة العجمي بلا كتلة خاصّة في يونيكود",nd1:"أتتبّع كيف تسير إجراءات التقدّم بالمقترح ومن يتقدّم به عادةً.",nd2:"أدوّن ما تغيّر في التوصيات خلال العشر سنوات الأخيرة.",nd3:"أجمع الصور وأحاول فهم سبب ظهوره في مواضع دون أخرى.",substack:"كلّ التدوينات على Substack ←",fv1:"جامعة بيلاروس الحكومية، كلّية العلاقات الدولية — الدراسات الأفريقية",f5d:"نصّ بضمير المتكلّم حين يستدعي الموضوع موقفاً واضحاً.",f5:"عمود",f4d:"الصورة كاملة: من يعمل على ماذا، وأين يدور الخلاف، وما الذي بقي دون حسم.",f4:"عرض موضوع",f3d:"حديث مع باحث أو متحدّث باللغة — بالروسية أو الإنجليزية أو الفرنسية.",f3:"حوار",f2d:"أقرأ البحث كاملاً، وأتحقّق من النتائج، وأشرح ما يُظهره فعلاً.",f2:"قراءة في دراسة",f1d:"موضوع صعب يُعرَض بحيث يتابعه قارئ من غير أهل الاختصاص.",f1:"نصّ تفسيري",fv4:"السياسة اللغوية، أنظمة الكتابة والمخطوطات، معالجة اللغات محدودة الموارد، اللسانيات الميدانية",sig:"كسينيا يادتشينكو",sig2:"كسينيا يادتشينكو",n1:"النصوص",n2:"نبذة",n3:"للمحرّرين",n4:"للتواصل",
   h1:"أكتب عن أفريقيا من خلال <em>لغاتها</em>",
   lede:"أقرأ المصادر بالإنجليزية والفرنسية والعربية، وأكتب عمّا يجري للغات القارّة — <b>من المخطوط إلى الترجمة الآلية</b>.",
   cta1:"اقرأ النصوص",cta2:"راسلني",
-  manifesto:"ألفا لغة. معظم ما يُكتب عنها يكتبه من <em>لا يقرأ مصادرها</em>.",sig3:"كسينيا يادتشينكو",k0:"لغات العمل",v0:"أكتب بالروسية والإنجليزية، وأقرأ المصادر بالإنجليزية والفرنسية والعربية.",h2texts:"النصوص",
-  t1:"أبجدية اخترعها تلميذان وصلت إلى يونيكود",t1d:"كيف انتقلت أدلم من دفتر مدرسي في غينيا إلى خطّ نظام في ثلاثين عاماً.",
-  t2:"الخطّ العربي الذي يكتب اللغات الأفريقية",t2d:"تقليد العجمي: قرون من النصوص بالهوسا والفولانية تكاد تغيب عن الأرشيفات الرقمية.",
-  t3:"بأيّ لغة نُعلّم: الجدل حول المدرسة في أفريقيا جنوب الصحراء",t3d:"لماذا يتحوّل اختيار لغة التعليم الابتدائي إلى قرار سياسي لا تربوي.",
-  t4:"لغات بلا بيانات: الترجمة الآلية حين تكون المدوّنة فارغة",t4d:"تخطئ النماذج بثقة في لغات يتحدّثها مئات الملايين — وهذا هو السبب.",
-  t5:"العمل الميداني: كيف تُوصَف لغة بلا قواعد مدوّنة",t5d:"ما الذي يحدث بين مسجّلة الباحث والوصف المنشور للّغة.",
+  manifesto:"ألفا لغة. معظم ما يُكتب عنها يكتبه من <em>لا يقرأ مصادرها</em>.",k0:"لغات العمل",v0:"أكتب بالروسية والإنجليزية، وأقرأ المصادر بالإنجليزية والفرنسية والعربية.",h2texts:"النصوص",
+  t1:"لماذا تعجز التقنيات الحالية عن قراءة المخطوطات الأفريقية؟",t1d:"للّغات الأفريقية نظامها اللساني الخاصّ، وللمكتوب منها نظام رسم معقّد فوق ذلك. لماذا يتعرّف الذكاء الاصطناعي على النصّ ولا يقوى على تحليل المخطوطات تحليلاً كاملاً.",
   
   h2about:"نبذة",
   ab1:"يشغلني ما يحدث للغة حين يتحدّث عنها الجميع إلّا أهلها.",
@@ -453,7 +419,7 @@ const T={ru:{},
   k3:"الموضوعات",v3:"أفريقيا جنوب الصحراء والمغرب الكبير · السياسة اللغوية والتعليم · أنظمة الكتابة والتقليد المخطوط · اللسانيات الحاسوبية واللغات محدودة الموارد",
   k5:"طريقة العمل",v5:"أقرأ البحث في أصله وأتواصل مع المؤلّفين للتعليق.",
   k6:"المدّة",v6:"النصّ المعتاد يحتاج <em>سبعة إلى عشرة أيام</em>.",
-  h2contact:"للتواصل",cv:"السيرة الذاتية (PDF)"}};
+  h2contact:"للتواصل"}};
 
 document.querySelectorAll('[data-i]').forEach(el=>{T.ru[el.dataset.i]=el.innerHTML});
 
@@ -482,6 +448,16 @@ document.querySelectorAll('.fmt button').forEach(b=>b.onclick=()=>{
 const hdr=document.querySelector('header');
 const onScroll=()=>hdr.classList.toggle('scrolled', window.scrollY>140);
 window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+const links=[...document.querySelectorAll('nav a[href^="#"]')];
+const secs=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const spy=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(!e.isIntersecting)return;
+    links.forEach(a=>a.classList.toggle('here', a.getAttribute('href')==='#'+e.target.id));
+  });
+},{rootMargin:'-30% 0px -60% 0px'});
+secs.forEach(s=>spy.observe(s));
 </script>
 </body>
 </html>

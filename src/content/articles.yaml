@@ -1,99 +1,26 @@
 # Публикации, секция 01
-# Одна запись — один блок. Поля title/dek/outlet обязаны быть на всех четырёх
-# языках: схема в src/content.config.ts роняет сборку, если языка не хватает.
-# url: "#" — плейсхолдер, заменяется в задаче T8.1.
+# Сгенерировано scripts/build-content.mjs из reference/yadchenko-site-v49.html.
+# Правки руками возможны, но следующий запуск скрипта их перезапишет — если
+# макет обновился, правьте макет.
+#
+# Поля meta/title/dek обязаны быть на всех четырёх языках: схема
+# в src/content.config.ts роняет сборку, если языка не хватает.
 
-- id: "adlam-unicode"
-  year: 2025
-  url: "#"
-  outlet:
-    ru: "Системный Блокъ"
-    en: "Sysblok"
-    fr: "Sysblok"
-    ar: "سيستيمني بلوك"
+- id: "why-current-technology-cant-read-african"
+  year: 2026
+  url: "https://sysblok.ru/oriental/pochemu-sovremennye-tehnologii-ne-ponimajut-afrikanskie-manuskripty/"
+  meta:
+    ru: "Системный Блокъ<br>2026"
+    en: "Sysblok<br>2026 · in Russian"
+    fr: "Sysblok<br>2026 · en russe"
+    ar: "سيستيمني بلوك<br>2026 · بالروسية"
   title:
-    ru: "Алфавит, придуманный двумя школьниками, дошёл до Unicode"
-    en: "An alphabet invented by two schoolboys made it into Unicode"
-    fr: "Un alphabet inventé par deux lycéens est entré dans Unicode"
-    ar: "أبجدية اخترعها تلميذان وصلت إلى يونيكود"
+    ru: "Почему современные технологии не понимают африканские манускрипты?"
+    en: "Why current technology can't read African manuscripts?"
+    fr: "Pourquoi les technologies actuelles ne lisent pas les manuscrits africains ?"
+    ar: "لماذا تعجز التقنيات الحالية عن قراءة المخطوطات الأفريقية؟"
   dek:
-    ru: "Как адлам за тридцать лет прошёл путь от школьной тетради в Гвинее до системного шрифта."
-    en: "How Adlam went from a school notebook in Guinea to a system font in thirty years."
-    fr: "Comment l'adlam est passé d'un cahier d'écolier en Guinée à une police système en trente ans."
-    ar: "كيف انتقلت أدلم من دفتر مدرسي في غينيا إلى خطّ نظام في ثلاثين عاماً."
-
-- id: "ajami-script"
-  year: 2025
-  url: "#"
-  outlet:
-    ru: "Системный Блокъ"
-    en: "Sysblok"
-    fr: "Sysblok"
-    ar: "سيستيمني بلوك"
-  title:
-    ru: "Арабское письмо, которое записывает африканские языки"
-    en: "The Arabic script that writes African languages"
-    fr: "L'écriture arabe qui note les langues africaines"
-    ar: "الخطّ العربي الذي يكتب اللغات الأفريقية"
-  dek:
-    ru: "Рукописная традиция аджами: века текстов на хауса и фула, которых почти нет в цифровых архивах."
-    en: "The Ajami tradition: centuries of Hausa and Fula texts that digital archives barely hold."
-    fr: "La tradition ajami : des siècles de textes en haoussa et en peul quasi absents des archives numériques."
-    ar: "تقليد العجمي: قرون من النصوص بالهوسا والفولانية تكاد تغيب عن الأرشيفات الرقمية."
-
-- id: "language-of-instruction"
-  year: 2025
-  url: "#"
-  outlet:
-    ru: "Издание"
-    en: "Publication"
-    fr: "Publication"
-    ar: "منشور"
-  title:
-    ru: "На каком языке учить: спор об образовании в Африке южнее Сахары"
-    en: "Which language to teach in: the argument over schooling in sub-Saharan Africa"
-    fr: "Dans quelle langue enseigner : la querelle scolaire en Afrique subsaharienne"
-    ar: "بأيّ لغة نُعلّم: الجدل حول المدرسة في أفريقيا جنوب الصحراء"
-  dek:
-    ru: "Почему решение о языке начальной школы оказывается политическим, а не педагогическим."
-    en: "Why the choice of language for primary school turns out to be political rather than pedagogical."
-    fr: "Pourquoi le choix de la langue de l'école primaire s'avère politique et non pédagogique."
-    ar: "لماذا يتحوّل اختيار لغة التعليم الابتدائي إلى قرار سياسي لا تربوي."
-
-- id: "low-resource-mt"
-  year: 2024
-  url: "#"
-  outlet:
-    ru: "Издание"
-    en: "Publication"
-    fr: "Publication"
-    ar: "منشور"
-  title:
-    ru: "Языки без данных: машинный перевод, когда корпуса пусты"
-    en: "Languages without data: machine translation when the corpus is empty"
-    fr: "Langues sans données : traduire quand le corpus est vide"
-    ar: "لغات بلا بيانات: الترجمة الآلية حين تكون المدوّنة فارغة"
-  dek:
-    ru: "Модели уверенно ошибаются на языках с сотнями миллионов носителей — и вот почему."
-    en: "Models fail confidently on languages with hundreds of millions of speakers — here's why."
-    fr: "Les modèles se trompent avec assurance sur des langues à des centaines de millions de locuteurs — voici pourquoi."
-    ar: "تخطئ النماذج بثقة في لغات يتحدّثها مئات الملايين — وهذا هو السبب."
-
-- id: "fieldwork-grammar"
-  year: 2024
-  url: "#"
-  outlet:
-    ru: "Издание"
-    en: "Publication"
-    fr: "Publication"
-    ar: "منشور"
-  title:
-    ru: "Полевая работа: как описывают язык, у которого нет грамматики"
-    en: "Fieldwork: describing a language that has no grammar yet"
-    fr: "Le terrain : décrire une langue qui n'a pas encore de grammaire"
-    ar: "العمل الميداني: كيف تُوصَف لغة بلا قواعد مدوّنة"
-  dek:
-    ru: "Что происходит между диктофоном лингвиста и опубликованным описанием языка."
-    en: "What happens between a linguist's recorder and a published description of a language."
-    fr: "Ce qui se passe entre l'enregistreur du linguiste et la description publiée d'une langue."
-    ar: "ما الذي يحدث بين مسجّلة الباحث والوصف المنشور للّغة."
+    ru: "За африканскими языками стоит своя лингвистическая система, а у письменных — ещё и сложная графика. Почему ИИ распознаёт текст, но не справляется с полноценным анализом манускриптов."
+    en: "African languages have a linguistic system of their own, and the written ones a complex graphic system on top of it. Why AI recognises the text but cannot fully analyse the manuscripts."
+    fr: "Les langues africaines ont leur propre système linguistique, et celles qui s'écrivent y ajoutent une graphie complexe. Pourquoi l'IA reconnaît le texte sans parvenir à analyser vraiment les manuscrits."
+    ar: "للّغات الأفريقية نظامها اللساني الخاصّ، وللمكتوب منها نظام رسم معقّد فوق ذلك. لماذا يتعرّف الذكاء الاصطناعي على النصّ ولا يقوى على تحليل المخطوطات تحليلاً كاملاً."

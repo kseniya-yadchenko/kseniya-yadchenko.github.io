@@ -1,7 +1,7 @@
 ---
 import { type Lang } from '../i18n/types';
 import { translator } from '../i18n';
-import { EMAIL, SOCIALS, CV_URL } from '../data/site';
+import { EMAIL, SOCIALS } from '../data/site';
 
 interface Props {
   lang: Lang;
@@ -15,11 +15,15 @@ const t = translator(lang);
     <div class="mono">06</div>
     <div class="shrow"><h2 set:html={t('h2contact')} /></div>
   </div>
-  <p class="bigname" set:html={t('sig3')} />
   <div class="lacerule"></div>
   <div class="contact">
     <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
-    {SOCIALS.map((social) => <a href={social.url}>{social.label}</a>)}
-    <a href={CV_URL} set:html={t('cv')} />
+    {
+      SOCIALS.map((social) => (
+        <a href={social.url} target="_blank" rel="noopener">
+          {social.label}
+        </a>
+      ))
+    }
   </div>
 </section>

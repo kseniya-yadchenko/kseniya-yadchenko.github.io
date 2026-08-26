@@ -1,25 +1,22 @@
 import type { Lang } from '../i18n/types';
 
 /**
- * Всё, что придётся заменить, когда придут настоящие материалы (задача T8.1),
- * собрано здесь и в src/content/*.yaml. Компоненты этих значений не знают.
+ * Контакты и внешние ссылки. Всё, что может понадобиться поменять без правки
+ * компонентов, собрано здесь и в src/content/*.yaml.
  */
 
-/** TODO(T8.1): заменить на рабочий адрес. Гейт публикации падает, пока здесь example.com. */
-export const EMAIL = 'hello@example.com';
+export const EMAIL = 'kseniyadchenko@icloud.com';
 
-/** TODO(T8.1): вписать ссылки или удалить пункт. Пустой url скрывает ссылку. */
 export const SOCIALS: ReadonlyArray<{ label: string; url: string }> = [
-  { label: 'Telegram', url: '#' },
-  { label: 'LinkedIn', url: '#' },
-  { label: 'Substack', url: '#' },
+  { label: 'Telegram', url: 'https://t.me/kseniyadchenko' },
+  { label: 'LinkedIn', url: 'https://www.linkedin.com/in/kseniya-yadchenko' },
+  { label: 'Substack', url: 'https://kseniyayadchenko.substack.com' },
 ];
 
-/** TODO(T8.1): положить файл в public/cv.pdf или убрать кнопку. */
-export const CV_URL = '#';
+export const SUBSTACK_URL = 'https://kseniyayadchenko.substack.com';
 
-/** TODO(T8.1): настоящая ссылка на Substack. */
-export const SUBSTACK_URL = '#';
+/** TODO: положить PDF в public/ и указать путь. Гейт публикации ловит «#». */
+export const TRANSLATION_SAMPLE_URL = '#';
 
 export const NAV: ReadonlyArray<{ href: string; key: 'n1' | 'n5' | 'n2' | 'n3' | 'n6' | 'n4' }> = [
   { href: '#texts', key: 'n1' },
@@ -30,7 +27,9 @@ export const NAV: ReadonlyArray<{ href: string; key: 'n1' | 'n5' | 'n2' | 'n3' |
   { href: '#contact', key: 'n4' },
 ];
 
-/** Заголовок вкладки и описание для поисковой выдачи — по языкам. */
+/** Внешние ссылки открываются в новой вкладке — как в макете. */
+export const isExternal = (url: string): boolean => /^https?:/.test(url);
+
 export const META: Record<Lang, { title: string; description: string }> = {
   ru: {
     title: 'Ксения Ядченко — тексты об Африке, языках и письменностях',

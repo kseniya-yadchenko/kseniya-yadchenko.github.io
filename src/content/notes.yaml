@@ -1,9 +1,12 @@
 # Малая форма, секция 02
-# Одна запись — один блок. Поля title/dek/outlet обязаны быть на всех четырёх
-# языках: схема в src/content.config.ts роняет сборку, если языка не хватает.
-# url: "#" — плейсхолдер, заменяется в задаче T8.1.
+# Сгенерировано scripts/build-content.mjs из reference/yadchenko-site-v49.html.
+# Правки руками возможны, но следующий запуск скрипта их перезапишет — если
+# макет обновился, правьте макет.
+#
+# Поля meta/title/dek обязаны быть на всех четырёх языках: схема
+# в src/content.config.ts роняет сборку, если языка не хватает.
 
-- id: "ajami-unicode-block"
+- id: "why-ajami-still-has-no-unicode"
   url: "#"
   date:
     ru: "Август 2026"
@@ -21,7 +24,7 @@
     fr: "J'examine comment fonctionne la procédure de proposition et qui la dépose d'habitude."
     ar: "أتتبّع كيف تسير إجراءات التقدّم بالمقترح ومن يتقدّم به عادةً."
 
-- id: "unesco-language-report"
+- id: "the-unesco-report-on-language-of"
   url: "#"
   date:
     ru: "Июль 2026"
@@ -39,7 +42,7 @@
     fr: "Je relève ce qui a changé dans les recommandations depuis dix ans."
     ar: "أدوّن ما تغيّر في التوصيات خلال العشر سنوات الأخيرة."
 
-- id: "tifinagh-road-signs"
+- id: "tifinagh-on-moroccan-road-signs"
   url: "#"
   date:
     ru: "Июль 2026"
