@@ -41,9 +41,14 @@ jobs:
             echo "base=/" >> "$GITHUB_OUTPUT"
             echo "Свой домен: $DOMAIN"
           else
-            echo "site=https://${{ github.repository_owner }}.github.io" >> "$GITHUB_OUTPUT"
+            # Логин владельца приходит в исходном регистре (Stanislau-Senkevich),
+            # а домен github.io всегда в нижнем. Без приведения регистра canonical
+            # и sitemap уехали бы с заглавными буквами — браузер это простит,
+            # поисковик посчитает другим URL.
+            OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+            echo "site=https://$OWNER.github.io" >> "$GITHUB_OUTPUT"
             echo "base=/${{ github.event.repository.name }}" >> "$GITHUB_OUTPUT"
-            echo "Подкаталог: /${{ github.event.repository.name }}"
+            echo "Подкаталог: https://$OWNER.github.io/${{ github.event.repository.name }}/"
           fi
 
       - name: Сборка
