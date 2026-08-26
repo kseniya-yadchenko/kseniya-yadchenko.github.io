@@ -1,0 +1,14 @@
+---
+import { type Lang } from '../i18n/types';
+import { translator } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = translator(lang);
+---
+
+<footer>
+  <div>© 2026 <span set:html={t('sig2')} /></div>
+</footer>

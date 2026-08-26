@@ -1,0 +1,29 @@
+/*
+ * Отклонения от макета. Файл существует, чтобы global.css оставался дословной
+ * копией оригинала и его можно было сверить побайтово.
+ *
+ * Причина ровно одна: переключатель языка перестал быть JS-кнопками и стал
+ * обычными ссылками на отдельные страницы. Это и есть смысл перехода на Astro —
+ * у каждого языка свой URL. Внешний вид сохранён.
+ *
+ * `aria-current="page"` вместо `aria-pressed="true"`: первое описывает текущую
+ * страницу, второе — состояние кнопки-переключателя. Теперь это ссылки.
+ */
+.langs a {
+  background: none;
+  border: 0;
+  cursor: pointer;
+  color: var(--grey-2);
+  padding: 0.32rem 0.5rem;
+  font: inherit;
+  letter-spacing: 0.06em;
+  transition: color 0.15s;
+  text-decoration: none;
+}
+.langs a:hover {
+  color: var(--ink);
+}
+.langs a[aria-current='page'] {
+  color: var(--bg);
+  background: var(--ink);
+}

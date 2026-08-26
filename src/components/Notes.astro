@@ -1,0 +1,33 @@
+---
+import { getCollection } from 'astro:content';
+import { type Lang } from '../i18n/types';
+import { translator } from '../i18n';
+import { SUBSTACK_URL } from '../data/site';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = translator(lang);
+
+const notes = await getCollection('notes');
+---
+
+<section id="notes">
+  <div class="shead">
+    <div class="mono">02</div>
+    <div class="shrow"><h2 set:html={t('h2notes')} /></div>
+  </div>
+  <div class="notes">
+    {
+      notes.map((note) => (
+        <a class="note" href={note.data.url}>
+          <span class="ndate">{note.data.date[lang]}</span>
+          <span class="ntitle" set:html={note.data.title[lang]} />
+          <span class="ndesc" set:html={note.data.dek[lang]} />
+        </a>
+      ))
+    }
+  </div>
+  <a class="substack" href={SUBSTACK_URL} set:html={t('substack')} />
+</section>

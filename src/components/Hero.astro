@@ -1,0 +1,33 @@
+---
+import { Image } from 'astro:assets';
+import { type Lang } from '../i18n/types';
+import { translator } from '../i18n';
+import heroPhoto from '../assets/hero.jpg';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = translator(lang);
+---
+
+<div class="hero">
+  <div class="herogrid">
+    <div>
+      <h1 set:html={t('h1')} />
+      <p class="lede" set:html={t('lede')} />
+      <div class="cta">
+        <a class="btn btn-solid" href="#texts" set:html={t('cta1')} />
+        <a class="btn btn-ghost" href="#contact" set:html={t('cta2')} />
+      </div>
+    </div>
+    <div class="shotframe">
+      <Image
+        class="heroshot"
+        src={heroPhoto}
+        alt={t('sig').replace(/<[^>]*>/g, '')}
+        loading="eager"
+      />
+    </div>
+  </div>
+</div>

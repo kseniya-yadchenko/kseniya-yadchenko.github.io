@@ -1,0 +1,61 @@
+---
+import { type Lang, LANGS, LANG_LABELS } from '../i18n/types';
+import { localePath } from '../i18n/paths';
+import { translator } from '../i18n';
+import { NAV } from '../data/site';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = translator(lang);
+
+/**
+ * Монограмма, которая заменяет подпись при скролле. В макете была зашита
+ * кириллическая «К» на всех языках — на арабской странице это выглядело
+ * чужеродно. Берём первую букву переведённого имени.
+ */
+const monogram =
+  [
+    ...t('sig')
+      .replace(/<[^>]*>/g, '')
+      .trim(),
+  ][0] ?? '';
+---
+
+<header>
+  <div class="wrap bar">
+    <a class="sig" href={localePath(lang)}>
+      <span class="signame" set:html={t('sig')} /><span class="sigmark" aria-hidden="true"
+        >{monogram}</span
+      >
+    </a>
+    <nav>
+      {NAV.map((item) => <a href={item.href} set:html={t(item.key)} />)}
+    </nav>
+    <div class="langs">
+      {
+        LANGS.map((l) => (
+          <a
+            href={localePath(l)}
+            hreflang={l}
+            aria-current={l === lang ? 'page' : undefined}
+            lang={l}
+          >
+            {LANG_LABELS[l]}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</header>
+
+<script>
+  // Подпись сжимается в монограмму после 140px скролла — поведение из макета.
+  const header = document.querySelector('header');
+  if (header) {
+    const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 140);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+</script>

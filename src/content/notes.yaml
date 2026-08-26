@@ -1,0 +1,58 @@
+# Малая форма, секция 02
+# Одна запись — один блок. Поля title/dek/outlet обязаны быть на всех четырёх
+# языках: схема в src/content.config.ts роняет сборку, если языка не хватает.
+# url: "#" — плейсхолдер, заменяется в задаче T8.1.
+
+- id: "ajami-unicode-block"
+  url: "#"
+  date:
+    ru: "Август 2026"
+    en: "August 2026"
+    fr: "Août 2026"
+    ar: "أغسطس 2026"
+  title:
+    ru: "Почему у аджами до сих пор нет своего блока в Unicode"
+    en: "Why Ajami still has no Unicode block of its own"
+    fr: "Pourquoi l'ajami n'a toujours pas son bloc Unicode"
+    ar: "لماذا لا تزال كتابة العجمي بلا كتلة خاصّة في يونيكود"
+  dek:
+    ru: "Разбираюсь, как устроена процедура подачи заявки и кто её обычно подаёт."
+    en: "Working out how the proposal process runs and who usually files one."
+    fr: "J'examine comment fonctionne la procédure de proposition et qui la dépose d'habitude."
+    ar: "أتتبّع كيف تسير إجراءات التقدّم بالمقترح ومن يتقدّم به عادةً."
+
+- id: "unesco-language-report"
+  url: "#"
+  date:
+    ru: "Июль 2026"
+    en: "July 2026"
+    fr: "Juillet 2026"
+    ar: "يوليو 2026"
+  title:
+    ru: "Отчёт ЮНЕСКО о языке обучения в Западной Африке"
+    en: "The UNESCO report on language of instruction in West Africa"
+    fr: "Le rapport de l'UNESCO sur la langue d'enseignement en Afrique de l'Ouest"
+    ar: "تقرير اليونسكو عن لغة التعليم في غرب أفريقيا"
+  dek:
+    ru: "Выписываю, что изменилось в рекомендациях за последние десять лет."
+    en: "Noting what has changed in the recommendations over the past ten years."
+    fr: "Je relève ce qui a changé dans les recommandations depuis dix ans."
+    ar: "أدوّن ما تغيّر في التوصيات خلال العشر سنوات الأخيرة."
+
+- id: "tifinagh-road-signs"
+  url: "#"
+  date:
+    ru: "Июль 2026"
+    en: "July 2026"
+    fr: "Juillet 2026"
+    ar: "يوليو 2026"
+  title:
+    ru: "Тифинаг на дорожных знаках Марокко"
+    en: "Tifinagh on Moroccan road signs"
+    fr: "Le tifinagh sur les panneaux routiers marocains"
+    ar: "تيفيناغ على لافتات الطرق في المغرب"
+  dek:
+    ru: "Собираю фотографии и пытаюсь понять, по какой логике его где-то ставят, а где-то нет."
+    en: "Collecting photographs and trying to work out why it appears in some places and not others."
+    fr: "Je rassemble des photographies et tente de comprendre pourquoi il apparaît ici et pas là."
+    ar: "أجمع الصور وأحاول فهم سبب ظهوره في مواضع دون أخرى."

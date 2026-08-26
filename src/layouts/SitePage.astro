@@ -1,0 +1,39 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Texts from '../components/Texts.astro';
+import Notes from '../components/Notes.astro';
+import About from '../components/About.astro';
+import Manifesto from '../components/Manifesto.astro';
+import Services from '../components/Services.astro';
+import Translation from '../components/Translation.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+import { type Lang } from '../i18n/types';
+
+/**
+ * Одна и та же страница на четырёх языках. Файлы в src/pages различаются
+ * только значением lang — вся структура живёт здесь, чтобы правка секции
+ * не требовала четырёх одинаковых изменений.
+ */
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+---
+
+<BaseLayout lang={lang}>
+  <Header lang={lang} />
+  <main class="wrap">
+    <Hero lang={lang} />
+    <Texts lang={lang} />
+    <Notes lang={lang} />
+    <About lang={lang} />
+    <Manifesto lang={lang} />
+    <Services lang={lang} />
+    <Translation lang={lang} />
+    <Contact lang={lang} />
+    <Footer lang={lang} />
+  </main>
+</BaseLayout>

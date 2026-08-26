@@ -1,0 +1,20 @@
+dist/
+.astro/
+node_modules/
+package-lock.json
+
+# Дословная копия стилей макета — переформатирование сломало бы возможность
+# сверить файл с оригиналом.
+src/styles/global.css
+
+# Генерируется scripts/fetch-fonts.mjs
+src/styles/fonts.css
+
+# Исходный макет — эталон, не трогаем
+reference/
+src/assets/
+public/fonts/
+
+# Извлечённые данные, форматируются своими скриптами
+src/i18n/*.json
+src/content/*.yaml

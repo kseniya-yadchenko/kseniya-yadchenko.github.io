@@ -1,0 +1,14 @@
+---
+import { type Lang } from '../i18n/types';
+import { translator } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = translator(lang);
+---
+
+<section class="manifesto-sec">
+  <p class="manifesto" set:html={t('manifesto')} />
+</section>

@@ -1,0 +1,72 @@
+---
+import { type Lang } from '../i18n/types';
+import { translator } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = translator(lang);
+
+const formats = [
+  { title: 'f1', body: 'f1d' },
+  { title: 'f2', body: 'f2d' },
+  { title: 'f3', body: 'f3d' },
+  { title: 'f4', body: 'f4d' },
+  { title: 'f5', body: 'f5d' },
+] as const;
+
+const rows = [
+  { key: 'k2', value: 'v2' },
+  { key: 'k3', value: 'v3' },
+  { key: 'k5', value: 'v5' },
+  { key: 'k6', value: 'v6' },
+] as const;
+---
+
+<section id="serv">
+  <div class="shead">
+    <div class="mono">04</div>
+    <div class="shrow"><h2 set:html={t('h2serv')} /></div>
+  </div>
+  <div class="spec">
+    <div class="specrow">
+      <div class="speck" set:html={t('k0')} />
+      <div class="specv" set:html={t('v0')} />
+    </div>
+    <div class="specrow">
+      <div class="speck" set:html={t('k1')} />
+      <div class="formats">
+        {
+          formats.map((format) => (
+            <div class="fmt">
+              <button type="button" aria-expanded="false">
+                <span set:html={t(format.title)} />
+                <i aria-hidden="true">+</i>
+              </button>
+              <p set:html={t(format.body)} />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+    {
+      rows.map((row) => (
+        <div class="specrow">
+          <div class="speck" set:html={t(row.key)} />
+          <div class="specv" set:html={t(row.value)} />
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<script>
+  // Аккордеон форматов — поведение из макета.
+  document.querySelectorAll<HTMLButtonElement>('.fmt button').forEach((button) => {
+    button.addEventListener('click', () => {
+      const open = button.parentElement?.classList.toggle('open') ?? false;
+      button.setAttribute('aria-expanded', String(open));
+    });
+  });
+</script>

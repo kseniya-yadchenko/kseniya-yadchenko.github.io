@@ -1,0 +1,61 @@
+---
+import { type Lang, LANGS, HREFLANG, isRTL, DEFAULT_LANG } from '../i18n/types';
+import { localeUrl } from '../i18n/paths';
+import { META, EMAIL } from '../data/site';
+import '../styles/global.css';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const meta = META[lang];
+const canonical = localeUrl(lang, Astro.site);
+
+/**
+ * Ради этого блока и затевался переход с одного HTML-файла на Astro:
+ * в макете все языки, кроме русского, подставлялись на клиенте, и поисковик
+ * видел только русскую версию. Теперь у каждого языка свой URL, свой title
+ * и перекрёстные hreflang.
+ */
+const alternates = LANGS.map((l) => ({ hreflang: HREFLANG[l], href: localeUrl(l, Astro.site) }));
+
+const personLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: meta.title.split('—')[0].trim(),
+  description: meta.description,
+  url: canonical,
+  email: `mailto:${EMAIL}`,
+  jobTitle: 'Writer, translator',
+  knowsLanguage: ['ru', 'en', 'fr', 'ar'],
+};
+---
+
+<!doctype html>
+<html lang={lang} dir={isRTL(lang) ? 'rtl' : 'ltr'}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{meta.title}</title>
+    <meta name="description" content={meta.description} />
+    <link rel="canonical" href={canonical} />
+
+    {alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
+    <link rel="alternate" hreflang="x-default" href={localeUrl(DEFAULT_LANG, Astro.site)} />
+
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content={meta.title} />
+    <meta property="og:description" content={meta.description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={lang} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <script type="application/ld+json" set:html={JSON.stringify(personLd)} is:inline />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

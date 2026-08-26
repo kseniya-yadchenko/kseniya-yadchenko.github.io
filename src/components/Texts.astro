@@ -1,0 +1,40 @@
+---
+import { getCollection } from 'astro:content';
+import { type Lang } from '../i18n/types';
+import { translator } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = translator(lang);
+
+// Свежие сверху; при равном годе — порядок из файла.
+const articles = (await getCollection('articles')).sort((a, b) => b.data.year - a.data.year);
+---
+
+<section id="texts">
+  <div class="shead">
+    <div class="mono">01</div>
+    <div class="shrow">
+      <h2 set:html={t('h2texts')} />
+    </div>
+  </div>
+  <div class="list">
+    {
+      articles.map((article) => (
+        <a class="item" href={article.data.url}>
+          <div class="imeta">
+            {article.data.outlet[lang]}
+            <br />
+            {article.data.year}
+          </div>
+          <div>
+            <span class="ititle" set:html={article.data.title[lang]} />
+            <span class="idesc" set:html={article.data.dek[lang]} />
+          </div>
+        </a>
+      ))
+    }
+  </div>
+</section>

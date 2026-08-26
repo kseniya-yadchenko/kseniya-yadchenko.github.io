@@ -1,0 +1,39 @@
+/**
+ * Проверяет, что все четыре словаря описывают один и тот же набор ключей.
+ *
+ * Дублирует проверку, которую делает TypeScript, но нужен отдельно: гоняется
+ * в CI и в `npm run build` до сборки, поэтому даёт понятную ошибку («в en нет
+ * ключа nt4») вместо простыни типов. Русский словарь — эталон.
+ */
+import { readFileSync } from 'node:fs';
+import { resolve, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const LANGS = ['ru', 'en', 'fr', 'ar'];
+
+const dicts = Object.fromEntries(
+  LANGS.map((l) => [l, JSON.parse(readFileSync(resolve(root, `src/i18n/${l}.json`), 'utf8'))]),
+);
+
+const reference = Object.keys(dicts.ru).sort();
+const problems = [];
+
+for (const lang of LANGS) {
+  const keys = Object.keys(dicts[lang]);
+  const missing = reference.filter((k) => !(k in dicts[lang]));
+  const extra = keys.filter((k) => !reference.includes(k));
+  const empty = keys.filter((k) => !String(dicts[lang][k]).trim());
+
+  if (missing.length) problems.push(`${lang}: нет ключей — ${missing.join(', ')}`);
+  if (extra.length) problems.push(`${lang}: лишние ключи — ${extra.join(', ')}`);
+  if (empty.length) problems.push(`${lang}: пустые значения — ${empty.join(', ')}`);
+}
+
+if (problems.length) {
+  console.error('i18n: расхождения между словарями\n');
+  for (const p of problems) console.error('  · ' + p);
+  process.exit(1);
+}
+
+console.log(`i18n: ${reference.length} ключей × ${LANGS.length} языка, расхождений нет`);

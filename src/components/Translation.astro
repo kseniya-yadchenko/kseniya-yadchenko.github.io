@@ -1,0 +1,35 @@
+---
+import { type Lang } from '../i18n/types';
+import { translator } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = translator(lang);
+
+const rows = [
+  { key: 'p1', value: 'q1' },
+  { key: 'p2', value: 'q2' },
+  { key: 'p3', value: 'q3' },
+  { key: 'p4', value: 'q4' },
+  { key: 'p5', value: 'q5' },
+] as const;
+---
+
+<section id="trans">
+  <div class="shead">
+    <div class="mono">05</div>
+    <div class="shrow"><h2 set:html={t('h2trans')} /></div>
+  </div>
+  <div class="spec">
+    {
+      rows.map((row) => (
+        <div class="specrow">
+          <div class="speck" set:html={t(row.key)} />
+          <div class="specv" set:html={t(row.value)} />
+        </div>
+      ))
+    }
+  </div>
+</section>

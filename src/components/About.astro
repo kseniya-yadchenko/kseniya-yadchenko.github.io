@@ -1,0 +1,44 @@
+---
+import { type Lang } from '../i18n/types';
+import { translator } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = translator(lang);
+
+const facts = [
+  { term: 'fd1', value: 'fv1' },
+  { term: 'fd4', value: 'fv4' },
+  { term: 'fd3', value: 'fv3' },
+] as const;
+---
+
+<section id="about">
+  <div class="about">
+    <div class="mono">03</div>
+    <div>
+      <div class="shrow" style="margin-bottom:2.6rem">
+        <h2 class="h2s" set:html={t('h2about')} />
+      </div>
+      <div class="abody">
+        <div>
+          <p set:html={t('ab1')} />
+          <p set:html={t('ab2')} />
+          <p set:html={t('ab3')} />
+        </div>
+        <dl class="facts">
+          {
+            facts.map((fact) => (
+              <>
+                <dt set:html={t(fact.term)} />
+                <dd set:html={t(fact.value)} />
+              </>
+            ))
+          }
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
