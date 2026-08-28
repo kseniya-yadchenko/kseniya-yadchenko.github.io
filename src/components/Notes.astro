@@ -10,7 +10,25 @@ interface Props {
 const { lang } = Astro.props;
 const t = translator(lang);
 
-const notes = await getCollection('notes');
+/**
+ * Заметки приходят из двух мест: notes.yaml генерируется из макета
+ * и перезаписывается, notes-extra.yaml ведётся руками.
+ *
+ * Записи без ссылки отбрасываются: в макете «Малая форма» была заполнена
+ * рыбой с href="#", и такие заметки не должны попадать на живой сайт.
+ * Фильтр общий, а не разовая чистка, — следующая версия макета может
+ * снова принести заглушки.
+ */
+const fromMacro = await getCollection('notes');
+const extra = await getCollection('notesExtra');
+
+type Note = (typeof fromMacro)[number]['data'];
+const byUrl = new Map<string, Note>();
+for (const entry of [...fromMacro, ...extra]) byUrl.set(entry.data.url, entry.data);
+
+const notes = [...byUrl.values()]
+  .filter((note) => note.url !== '#')
+  .sort((a, b) => (b.published ?? '').localeCompare(a.published ?? ''));
 ---
 
 <section id="notes">
@@ -23,13 +41,13 @@ const notes = await getCollection('notes');
       notes.map((note) => (
         <a
           class="note"
-          href={note.data.url}
-          target={isExternal(note.data.url) ? '_blank' : undefined}
-          rel={isExternal(note.data.url) ? 'noopener' : undefined}
+          href={note.url}
+          target={isExternal(note.url) ? '_blank' : undefined}
+          rel={isExternal(note.url) ? 'noopener' : undefined}
         >
-          <span class="ndate">{note.data.date[lang]}</span>
-          <span class="ntitle" set:html={note.data.title[lang]} />
-          <span class="ndesc" set:html={note.data.dek[lang]} />
+          <span class="ndate">{note.date[lang]}</span>
+          <span class="ntitle" set:html={note.title[lang]} />
+          <span class="ndesc" set:html={note.dek[lang]} />
         </a>
       ))
     }

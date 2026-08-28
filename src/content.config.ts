@@ -38,15 +38,23 @@ const articlesExtra = defineCollection({
   schema: articleSchema,
 });
 
-const notes = defineCollection({
-  loader: file('src/content/notes.yaml'),
-  schema: z.object({
-    url: z.string(),
-    /** Дата хранится строкой на каждом языке: так сохраняется типографика макета. */
-    date: localized,
-    title: localized,
-    dek: localized,
-  }),
+const noteSchema = z.object({
+  url: z.string(),
+  /** Дата хранится строкой на каждом языке: так сохраняется типографика макета. */
+  date: localized,
+  /** ISO-дата только для сортировки; на странице не показывается. */
+  published: z.string().date().optional(),
+  title: localized,
+  dek: localized,
 });
 
-export const collections = { articles, articlesExtra, notes };
+/** Из макета — перезаписывается build-content.mjs. */
+const notes = defineCollection({ loader: file('src/content/notes.yaml'), schema: noteSchema });
+
+/** Пришедшие напрямую, минуя макет. Скрипты этот файл не трогают. */
+const notesExtra = defineCollection({
+  loader: file('src/content/notes-extra.yaml'),
+  schema: noteSchema,
+});
+
+export const collections = { articles, articlesExtra, notes, notesExtra };

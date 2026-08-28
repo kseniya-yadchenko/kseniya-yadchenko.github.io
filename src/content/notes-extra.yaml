@@ -1,0 +1,31 @@
+# Заметки «Малой формы», которых нет в макете.
+#
+# notes.yaml генерируется build-content.mjs из макета и перезаписывается
+# целиком. Этот файл скрипты не трогают — сюда добавляются записи, пришедшие
+# напрямую. Заметки без ссылки (url: "#") в вывод не попадают: в макете они
+# были рыбой, а не содержанием.
+#
+# published — только для сортировки, на странице не показывается: там date,
+# где типографика месяца своя в каждом языке.
+#
+# Пост английский, поэтому в date у остальных языков стоит пометка про язык
+# оригинала — так же, как в articles-extra.yaml у русских статей.
+
+- id: "three-sentences-adlam-unpacked"
+  published: "2026-08-28"
+  url: "https://kseniyayadchenko.substack.com/p/three-sentences-from-my-adlam-piece"
+  date:
+    ru: "Август 2026 · по-английски"
+    en: "August 2026"
+    fr: "Août 2026 · en anglais"
+    ar: "أغسطس 2026 · بالإنجليزية"
+  title:
+    ru: "Три фразы из моего текста об адламе, разобранные подробно"
+    en: "Three sentences from my Adlam piece, unpacked"
+    fr: "Trois phrases de mon texte sur l'adlam, décortiquées"
+    ar: "ثلاث جمل من نصّي عن أدلم، مشروحة بالتفصيل"
+  dek:
+    ru: "Кто решает, что западноафриканский алфавит существует по-настоящему, — государство, комитет или браузер?"
+    en: "Who gets to say a West African alphabet is real – a state, a committee, or a browser?"
+    fr: "Qui décide qu'un alphabet ouest-africain existe vraiment : un État, un comité ou un navigateur ?"
+    ar: "مَن يقرّر أنّ أبجديةً غرب أفريقية حقيقيةٌ فعلاً — دولة أم لجنة أم متصفّح؟"
